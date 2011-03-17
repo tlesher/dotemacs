@@ -14,6 +14,7 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq inhibit-startup-screen t)
 (setq tab-always-indent (quote complete))
+(setq make-backup-files nil)
 
 ;; No tabs.
 (setq-default indent-tabs-mode nil)
