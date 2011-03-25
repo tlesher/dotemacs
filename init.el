@@ -3,6 +3,7 @@
 (require 'server)
 (unless (server-running-p) (server-start))
 
+(org-indent-mode t)
 (menu-bar-mode 0)
 (scroll-bar-mode 0)
 (tool-bar-mode 0)
