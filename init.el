@@ -36,6 +36,12 @@
   (define-key python-mode-map "\C-m" 'newline-and-indent))
 (add-hook 'python-mode-hook 'tdl-python-mode-setup)
 
+;; What has it gots in its packages?
+(when (boundp 'package-archives)
+  (add-to-list 'package-archives
+               '("elpa" . "http://tromey.com/elpa/"))
+  (add-to-list 'package-archives
+               '("marmalade" . "http://marmalade-repo.org/packages/")))
 
 ;; TODO: Fix the default font via DPI tweaking, not customize
 (custom-set-variables
