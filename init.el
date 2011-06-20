@@ -1,7 +1,11 @@
 (require 'cl)
 (defvar *emacs-load-start* (current-time))
 
-(add-to-list 'load-path "~/.emacs.d/lisp")
+(labels ((add-path (p)
+         (add-to-list 'load-path (concat "~/.emacs.d/" p))))
+  (add-path "lisp")
+)
+
 
 (require 'server)
 (unless (server-running-p) (server-start))
@@ -22,9 +26,12 @@
 (setq transient-mark-mode t)
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq inhibit-startup-screen t)
-(setq tab-always-indent (quote complete))
 (setq make-backup-files nil)
 (setq c-basic-offset 4)
+
+;; Add commonly-used files in registers, so I can C-x r j e to get to
+;; init.el, for example.
+(set-register ?e '(file . "~/.emacs.d/init.el"))
 
 ;; No tabs.
 (setq-default indent-tabs-mode nil)
@@ -42,7 +49,7 @@
     (progn 
       (defun explorer () "Launch the windows explorer in the current directory and selects current file" 
         (interactive)
-        (w32--shell-execute "open" "explorer"
+        (w32-shell-execute "open" "explorer"
                            (concat "/e,/select," (convert-standard-filename
                            buffer-file-name))))
       (global-set-key [f12] 'explorer)))
@@ -86,7 +93,11 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 80 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
+ '(default ((t (:inherit nil :stipple
+                         nil :background "white" :foreground "black" :inverse-video
+                         nil :box nil :strike-through nil :overline nil :underline
+                         nil :slant normal :weight normal :height 80 :width
+ normal :foundry "unknown" :family "DejaVu Sans Mono")))))
 
 (message ".emacs loaded in %ds" 
         (destructuring-bind (hi lo ms) 
