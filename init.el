@@ -1,7 +1,15 @@
-(add-to-list 'load-path "~/.emacs.d/site-lisp")
+(require 'cl)
+(defvar *emacs-load-start* (current-time))
+
+(add-to-list 'load-path "~/.emacs.d/lisp")
 
 (require 'server)
 (unless (server-running-p) (server-start))
+
+;; Commented out because it causes init.el to load slowly
+;; Appears to be caused by p4-mode trying to load all help
+;; strings from the P4 server at initialization.
+;(require 'p4)
 
 (org-indent-mode t)
 (menu-bar-mode 0)
@@ -16,6 +24,7 @@
 (setq inhibit-startup-screen t)
 (setq tab-always-indent (quote complete))
 (setq make-backup-files nil)
+(setq c-basic-offset 4)
 
 ;; No tabs.
 (setq-default indent-tabs-mode nil)
@@ -28,6 +37,28 @@
 ;; Avoid minimizing when I accidentally C-z
 (global-unset-key [?\C-z])
 (global-unset-key [?\C-x ?\C-z])
+
+(if (eq system-type 'windows-nt)
+    (progn 
+      (defun explorer () "Launch the windows explorer in the current directory and selects current file" 
+        (interactive)
+        (w32--shell-execute "open" "explorer"
+                           (concat "/e,/select," (convert-standard-filename
+                           buffer-file-name))))
+      (global-set-key [f12] 'explorer)))
+
+(defconst vocollect-c-style
+  '((c-tab-always-indent . t)
+    (c-basic-offset . 4)
+    (c-offsets-alist
+     (substatement-open . 0)
+     (label             . -)
+     (inline-open       . 0))
+    )
+  "Vocollect Mobile Software style")
+; TODO: Figure out how to tell c-mode about map macros:
+; BEGIN_MSG_MAP(), MESSAGE_HANDLER(), END_MSG_MAP, etc.
+(c-add-style "vocollect" vocollect-c-style)
 
 ;; Python mode settings
 (defun tdl-python-mode-setup ()
@@ -56,3 +87,10 @@
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 80 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
+
+(message ".emacs loaded in %ds" 
+        (destructuring-bind (hi lo ms) 
+                            (current-time)
+                            (- (+ hi lo) 
+                               (+ (first *emacs-load-start*) 
+                                  (second *emacs-load-start*)))))
