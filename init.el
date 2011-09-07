@@ -33,6 +33,9 @@
 ;; init.el, for example.
 (set-register ?e '(file . "~/.emacs.d/init.el"))
 
+;; Always open VTX files as UTF-8
+(modify-coding-system-alist 'file ".*\.vtx" 'utf-8)
+
 ;; No tabs.
 (setq-default indent-tabs-mode nil)
 
@@ -40,6 +43,8 @@
 (put 'erase-buffer 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
+
+(global-set-key [?\C-x ?\C-j] 'find-file-at-point)
 
 ;; Avoid minimizing when I accidentally C-z
 (global-unset-key [?\C-z])
@@ -63,6 +68,7 @@
      (inline-open       . 0))
     )
   "Vocollect Mobile Software style")
+
 ; TODO: Figure out how to tell c-mode about map macros:
 ; BEGIN_MSG_MAP(), MESSAGE_HANDLER(), END_MSG_MAP, etc.
 (c-add-style "vocollect" vocollect-c-style)
