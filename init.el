@@ -73,12 +73,34 @@
 ; BEGIN_MSG_MAP(), MESSAGE_HANDLER(), END_MSG_MAP, etc.
 (c-add-style "vocollect" vocollect-c-style)
 
+
 ;; Python mode settings
 (defun tdl-python-mode-setup ()
   (setq indent-tabs-mode nil)
   (setq py-indent-offset 4)
   (define-key python-mode-map "\C-m" 'newline-and-indent))
 (add-hook 'python-mode-hook 'tdl-python-mode-setup)
+
+;; pymacs
+(autoload 'pymacs-load "pymacs" nil t)
+(autoload 'pymacs-eval "pymacs" nil t)
+(autoload 'pymacs-apply "pymacs")
+(autoload 'pymacs-call "pymacs")
+
+;; Bicycle repair man
+;(pymacs-load "bikeemacs" "brm-")
+;(brm-init)
+
+; (pymacs-load "ropemacs" "rope-")
+(defun load-ropemacs ()
+  "Load pymacs and ropemacs"
+  (interactive)
+  (require 'pymacs)
+  (pymacs-load "ropemacs" "rope-")
+  ;; Automatically save project python buffers before refactorings
+  (setq ropemacs-confirm-saving 'nil)
+  )
+
 
 ;; What has it gots in its packages?
 (when (boundp 'package-archives)
