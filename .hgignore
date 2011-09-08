@@ -5,3 +5,4 @@ session/
 server/
 elpa/
 url/
+\#.*\#
