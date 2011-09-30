@@ -15,6 +15,8 @@
 ;; strings from the P4 server at initialization.
 ;(require 'p4)
 
+(setq-default org-startup-indented t)
+ 
 (org-indent-mode t)
 (menu-bar-mode 0)
 (scroll-bar-mode 0)
@@ -36,6 +38,15 @@
 ;; Always open VTX files as UTF-8
 (modify-coding-system-alist 'file ".*\.vtx" 'utf-8)
 
+;; Load deft if available
+(when (require 'deft nil 'noerror)
+  (setq
+   deft-extension "rst"
+   deft-directory "~/.emacs.d/deft/"
+   deft-text-mode 'rst-mode)
+  (global-set-key (kbd "<f9>") 'deft))
+
+
 ;; No tabs.
 (setq-default indent-tabs-mode nil)
 
@@ -45,6 +56,18 @@
 (put 'upcase-region 'disabled nil)
 
 (global-set-key [?\C-x ?\C-j] 'find-file-at-point)
+
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
+
+;; More useful frame title
+(setq frame-title-format
+      '("" invocation-name ": "
+        (:eval (if (buffer-file-name)
+                   (abbreviate-file-name (buffer-file-name))
+                 "%b"))))
 
 ;; Avoid minimizing when I accidentally C-z
 (global-unset-key [?\C-z])
@@ -56,7 +79,7 @@
         (interactive)
         (w32-shell-execute "open" "explorer"
                            (concat "/e,/select," (convert-standard-filename
-                           buffer-file-name))))
+                                                  buffer-file-name))))
       (global-set-key [f12] 'explorer)))
 
 (defconst vocollect-c-style
