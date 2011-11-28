@@ -14,6 +14,8 @@
 
 (require 'hide-lines)
 
+(require 'ido)
+
 ;; Commented out because it causes init.el to load slowly
 ;; Appears to be caused by p4-mode trying to load all help
 ;; strings from the P4 server at initialization.
