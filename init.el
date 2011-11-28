@@ -10,6 +10,8 @@
 (require 'server)
 (unless (server-running-p) (server-start))
 
+(require 'hide-lines)
+
 ;; Commented out because it causes init.el to load slowly
 ;; Appears to be caused by p4-mode trying to load all help
 ;; strings from the P4 server at initialization.
