@@ -92,15 +92,24 @@
 ;(brm-init)
 
 ; (pymacs-load "ropemacs" "rope-")
-(defun load-ropemacs ()
-  "Load pymacs and ropemacs"
-  (interactive)
-  (require 'pymacs)
-  (pymacs-load "ropemacs" "rope-")
-  ;; Automatically save project python buffers before refactorings
-  (setq ropemacs-confirm-saving 'nil)
-  )
+;; (defun load-ropemacs ()
+;;   "Load pymacs and ropemacs"
+;;   (interactive)
+;;   (require 'pymacs)
+;;   (pymacs-load "ropemacs" "rope-")
+;;   ;; Automatically save project python buffers before refactorings
+;;   (setq ropemacs-confirm-saving 'nil)
+;;   )
 
+
+;(add-to-list 'load-path "~/.site-lisp/pycomplexity/")
+
+;(require 'linum)
+;(require 'pycomplexity)
+;(add-hook 'python-mode-hook
+;          (function (lambda ()
+;                      (pycomplexity-mode)
+;                      (linum-mode))))
 
 ;; What has it gots in its packages?
 (when (boundp 'package-archives)
