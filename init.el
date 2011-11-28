@@ -4,7 +4,10 @@
 (labels ((add-path (p)
          (add-to-list 'load-path (concat "~/.emacs.d/" p))))
   (add-path "lisp")
+  (add-path "init")
 )
+
+(require 'init-vocollect)
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)
@@ -14,7 +17,9 @@
 
 (require 'hide-lines)
 
-(require 'ido)
+(ido-mode 1)
+
+(global-linum-mode)
 
 ;; Commented out because it causes init.el to load slowly
 ;; Appears to be caused by p4-mode trying to load all help
@@ -22,8 +27,8 @@
 ;(require 'p4)
 
 (setq-default org-startup-indented t)
- 
 (org-indent-mode t)
+
 (menu-bar-mode 0)
 (scroll-bar-mode 0)
 (tool-bar-mode 0)
@@ -35,14 +40,12 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq inhibit-startup-screen t)
 (setq make-backup-files nil)
+
 (setq c-basic-offset 4)
 
 ;; Add commonly-used files in registers, so I can C-x r j e to get to
 ;; init.el, for example.
 (set-register ?e '(file . "~/.emacs.d/init.el"))
-
-;; Always open VTX files as UTF-8
-(modify-coding-system-alist 'file ".*\.vtx" 'utf-8)
 
 ;; Load deft if available
 (when (require 'deft nil 'noerror)
@@ -88,16 +91,6 @@
                                                   buffer-file-name))))
       (global-set-key [f12] 'explorer)))
 
-(defconst vocollect-c-style
-  '((c-tab-always-indent . t)
-    (c-basic-offset . 4)
-    (c-offsets-alist
-     (substatement-open . 0)
-     (label             . -)
-     (inline-open       . 0))
-    )
-  "Vocollect Mobile Software style")
-
 ; TODO: Figure out how to tell c-mode about map macros:
 ; BEGIN_MSG_MAP(), MESSAGE_HANDLER(), END_MSG_MAP, etc.
 (c-add-style "vocollect" vocollect-c-style)
@@ -133,7 +126,6 @@
 
 ;(add-to-list 'load-path "~/.site-lisp/pycomplexity/")
 
-;(require 'linum)
 ;(require 'pycomplexity)
 ;(add-hook 'python-mode-hook
 ;          (function (lambda ()
