@@ -1,3 +1,4 @@
+
 (require 'cl)
 (defvar *emacs-load-start* (current-time))
 
@@ -15,7 +16,9 @@
 (require 'server)
 (unless (server-running-p) (server-start))
 
-(require 'hide-lines)
+(autoload 'hide-lines "hide-lines" "Hide lines based on a regexp" t)
+(global-set-key "\C-ch" 'hide-lines)
+(global-set-key "\C-c\C-h" 'show-all-invisible)
 
 (ido-mode 1)
 
