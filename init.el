@@ -15,8 +15,10 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)
 
+; server-running-p returns ":other" on win32 if it's not sure,
+; so don't just check (unless (server-running-p))
 (require 'server)
-(unless (server-running-p) (server-start))
+(unless (eq (server-running-p) 't) (server-start))
 
 ;;; Hide-lines
 (autoload 'hide-lines "hide-lines" "Hide lines based on a regexp" t)
