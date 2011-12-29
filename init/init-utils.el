@@ -5,4 +5,4 @@
       (if (string-match "^[a-zA-Z]\:/$" (expand-file-name dn)) t nil)
       (equal (expand-file-name dn) "/")))
 
-(provide 'init-snippets)
+(provide 'init-utils)

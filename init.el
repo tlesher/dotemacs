@@ -10,7 +10,7 @@
 (require 'init-deft)
 (require 'init-fill)
 (require 'init-org)
-(require 'init-snippets)
+(require 'init-utils)
 (require 'init-vocollect)
 
 (setq custom-file "~/.emacs.d/custom.el")
