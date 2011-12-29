@@ -1,4 +1,3 @@
-
 (require 'cl)
 (defvar *emacs-load-start* (current-time))
 
@@ -9,6 +8,9 @@
 )
 
 (require 'init-vocollect)
+(require 'init-org)
+(require 'init-fill)
+(require 'init-snippets)
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)
@@ -16,9 +18,12 @@
 (require 'server)
 (unless (server-running-p) (server-start))
 
+;;; Hide-lines
 (autoload 'hide-lines "hide-lines" "Hide lines based on a regexp" t)
 (global-set-key "\C-ch" 'hide-lines)
 (global-set-key "\C-c\C-h" 'show-all-invisible)
+
+
 
 (ido-mode 1)
 
@@ -29,8 +34,6 @@
 ;; strings from the P4 server at initialization.
 ;(require 'p4)
 
-(setq-default org-startup-indented t)
-(org-indent-mode t)
 
 (menu-bar-mode 0)
 (scroll-bar-mode 0)
@@ -68,12 +71,7 @@
 (put 'upcase-region 'disabled nil)
 
 (global-set-key [?\C-x ?\C-j] 'find-file-at-point)
-
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-cc" 'org-capture)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
-
+(global-set-key "\C-c\C-r" 'revert-buffer)
 ;; More useful frame title
 (setq frame-title-format
       '("" invocation-name ": "
