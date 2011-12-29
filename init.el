@@ -7,10 +7,11 @@
   (add-path "init")
 )
 
-(require 'init-vocollect)
-(require 'init-org)
+(require 'init-deft)
 (require 'init-fill)
+(require 'init-org)
 (require 'init-snippets)
+(require 'init-vocollect)
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)
@@ -24,8 +25,6 @@
 (autoload 'hide-lines "hide-lines" "Hide lines based on a regexp" t)
 (global-set-key "\C-ch" 'hide-lines)
 (global-set-key "\C-c\C-h" 'show-all-invisible)
-
-
 
 (ido-mode 1)
 
@@ -54,14 +53,6 @@
 ;; Add commonly-used files in registers, so I can C-x r j e to get to
 ;; init.el, for example.
 (set-register ?e '(file . "~/.emacs.d/init.el"))
-
-;; Load deft if available
-(when (require 'deft nil 'noerror)
-  (setq
-   deft-extension "rst"
-   deft-directory "~/.emacs.d/deft/"
-   deft-text-mode 'rst-mode)
-  (global-set-key (kbd "<f9>") 'deft))
 
 
 ;; No tabs.
