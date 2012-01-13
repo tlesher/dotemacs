@@ -1,3 +1,5 @@
+
+
 (require 'cl)
 (defvar *emacs-load-start* (current-time))
 
@@ -29,6 +31,7 @@
 (ido-mode 1)
 
 (global-linum-mode)
+(global-set-key "\C-c\C-l" 'linum-mode)
 
 ;; Commented out because it causes init.el to load slowly
 ;; Appears to be caused by p4-mode trying to load all help
@@ -65,6 +68,8 @@
 
 (global-set-key [?\C-x ?\C-j] 'find-file-at-point)
 (global-set-key "\C-c\C-r" 'revert-buffer)
+(global-set-key [f5] 'compile)
+
 ;; More useful frame title
 (setq frame-title-format
       '("" invocation-name ": "
@@ -94,7 +99,8 @@
 (defun tdl-python-mode-setup ()
   (setq indent-tabs-mode nil)
   (setq py-indent-offset 4)
-  (define-key python-mode-map "\C-m" 'newline-and-indent))
+  (define-key python-mode-map "\C-m" 'newline-and-indent)
+  (setq compile-command "py.test -v"))
 (add-hook 'python-mode-hook 'tdl-python-mode-setup)
 
 ;; pymacs
