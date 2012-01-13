@@ -14,6 +14,7 @@
 (require 'init-org)
 (require 'init-utils)
 (require 'init-vocollect)
+(require 'init-autocomplete)
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)
