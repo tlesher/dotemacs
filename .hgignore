@@ -6,3 +6,4 @@ server/
 elpa/
 url/
 \#.*\#
+\.elc$
