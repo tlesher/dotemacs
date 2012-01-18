@@ -82,6 +82,13 @@
 (global-unset-key [?\C-z])
 (global-unset-key [?\C-x ?\C-z])
 
+;; Quick window switching
+(global-set-key "\C-o" 'other-window)
+(defun prev-window()
+  (interactive)
+  (other-window -1))
+(global-set-key "\M-o" 'prev-window)
+
 (if (eq system-type 'windows-nt)
     (progn 
       (defun explorer () "Launch the windows explorer in the current directory and selects current file" 
@@ -101,7 +108,9 @@
   (setq indent-tabs-mode nil)
   (setq py-indent-offset 4)
   (define-key python-mode-map "\C-m" 'newline-and-indent)
-  (setq compile-command "py.test -v"))
+  (setq compile-command "py.test -v")
+  (pymacs-load "ropemacs" "rope-")
+)
 (add-hook 'python-mode-hook 'tdl-python-mode-setup)
 
 ;; pymacs
@@ -114,7 +123,6 @@
 ;(pymacs-load "bikeemacs" "brm-")
 ;(brm-init)
 
-; (pymacs-load "ropemacs" "rope-")
 ;; (defun load-ropemacs ()
 ;;   "Load pymacs and ropemacs"
 ;;   (interactive)
