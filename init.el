@@ -111,15 +111,15 @@
   (setq py-indent-offset 4)
   (define-key python-mode-map "\C-m" 'newline-and-indent)
   (setq compile-command "py.test -v")
-  (pymacs-load "ropemacs" "rope-")
+  ;; (pymacs-load "ropemacs" "rope-")
   )
 (add-hook 'python-mode-hook 'tdl-python-mode-setup)
 
 ;; pymacs
-(autoload 'pymacs-load "pymacs" nil t)
-(autoload 'pymacs-eval "pymacs" nil t)
-(autoload 'pymacs-apply "pymacs")
-(autoload 'pymacs-call "pymacs")
+;; (autoload 'pymacs-load "pymacs" nil t)
+;; (autoload 'pymacs-eval "pymacs" nil t)
+;; (autoload 'pymacs-apply "pymacs")
+;; (autoload 'pymacs-call "pymacs")
 
 ;; What has it gots in its packages?
 (when (boundp 'package-archives)
