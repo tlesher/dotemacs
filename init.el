@@ -34,6 +34,16 @@
 (global-linum-mode)
 (global-set-key "\C-c\C-l" 'linum-mode)
 
+;; Use ibuffer as a better list-buffers
+;; from http://xahlee.org/emacs/effective_emacs.html
+(defalias 'list-buffers 'ibuffer)
+
+;; Some aliases for search/replace
+;; from https://sites.google.com/site/steveyegge2/effective-emacs
+(defalias 'rs 'replace-string)
+(defalias 'qr 'query-replace)
+(defalias 'qrr 'query-replace-regexp)
+
 ;; Commented out because it causes init.el to load slowly
 ;; Appears to be caused by p4-mode trying to load all help
 ;; strings from the P4 server at initialization.
