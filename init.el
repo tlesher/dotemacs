@@ -12,6 +12,7 @@
 (require 'init-utils)
 (require 'init-vocollect)
 (require 'init-autocomplete)
+(require 'init-python)
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)
@@ -104,22 +105,6 @@
                            (concat "/e,/select," (convert-standard-filename
                                                   buffer-file-name))))
       (global-set-key [f12] 'explorer)))
-
-;; Python mode settings
-(defun tdl-python-mode-setup ()
-  (setq indent-tabs-mode nil)
-  (setq py-indent-offset 4)
-  (define-key python-mode-map "\C-m" 'newline-and-indent)
-  (setq compile-command "py.test -v")
-  ;; (pymacs-load "ropemacs" "rope-")
-  )
-(add-hook 'python-mode-hook 'tdl-python-mode-setup)
-
-;; pymacs
-;; (autoload 'pymacs-load "pymacs" nil t)
-;; (autoload 'pymacs-eval "pymacs" nil t)
-;; (autoload 'pymacs-apply "pymacs")
-;; (autoload 'pymacs-call "pymacs")
 
 ;; What has it gots in its packages?
 (when (boundp 'package-archives)
