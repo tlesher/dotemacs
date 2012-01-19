@@ -1,13 +1,10 @@
-
-
 (require 'cl)
 (defvar *emacs-load-start* (current-time))
 
 (labels ((add-path (p)
-         (add-to-list 'load-path (concat "~/.emacs.d/" p))))
+                   (add-to-list 'load-path (concat "~/.emacs.d/" p))))
   (add-path "lisp")
-  (add-path "init")
-)
+  (add-path "init"))
 
 (require 'init-deft)
 (require 'init-fill)
@@ -19,8 +16,8 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)
 
-; server-running-p returns ":other" on win32 if it's not sure,
-; so don't just check (unless (server-running-p))
+;; server-running-p returns ":other" on win32 if it's not sure,
+;; so don't just check (unless (server-running-p))
 (require 'server)
 (unless (eq (server-running-p) 't) (server-start))
 
@@ -47,8 +44,7 @@
 ;; Commented out because it causes init.el to load slowly
 ;; Appears to be caused by p4-mode trying to load all help
 ;; strings from the P4 server at initialization.
-;(require 'p4)
-
+;; (require 'p4)
 
 (menu-bar-mode 0)
 (scroll-bar-mode 0)
@@ -100,8 +96,9 @@
 (global-set-key "\M-o" 'prev-window)
 
 (if (eq system-type 'windows-nt)
-    (progn 
-      (defun explorer () "Launch the windows explorer in the current directory and selects current file" 
+    (progn
+      (defun explorer () 
+        "Launch Windows Explorer in current directory and select current file"
         (interactive)
         (w32-shell-execute "open" "explorer"
                            (concat "/e,/select," (convert-standard-filename
@@ -115,7 +112,7 @@
   (define-key python-mode-map "\C-m" 'newline-and-indent)
   (setq compile-command "py.test -v")
   (pymacs-load "ropemacs" "rope-")
-)
+  )
 (add-hook 'python-mode-hook 'tdl-python-mode-setup)
 
 ;; pymacs
@@ -123,28 +120,6 @@
 (autoload 'pymacs-eval "pymacs" nil t)
 (autoload 'pymacs-apply "pymacs")
 (autoload 'pymacs-call "pymacs")
-
-;; Bicycle repair man
-;(pymacs-load "bikeemacs" "brm-")
-;(brm-init)
-
-;; (defun load-ropemacs ()
-;;   "Load pymacs and ropemacs"
-;;   (interactive)
-;;   (require 'pymacs)
-;;   (pymacs-load "ropemacs" "rope-")
-;;   ;; Automatically save project python buffers before refactorings
-;;   (setq ropemacs-confirm-saving 'nil)
-;;   )
-
-
-;(add-to-list 'load-path "~/.site-lisp/pycomplexity/")
-
-;(require 'pycomplexity)
-;(add-hook 'python-mode-hook
-;          (function (lambda ()
-;                      (pycomplexity-mode)
-;                      (linum-mode))))
 
 ;; What has it gots in its packages?
 (when (boundp 'package-archives)
@@ -154,9 +129,9 @@
                '("marmalade" . "http://marmalade-repo.org/packages/")))
 
 
-(message ".emacs loaded in %ds" 
-        (destructuring-bind (hi lo ms) 
-                            (current-time)
-                            (- (+ hi lo) 
-                               (+ (first *emacs-load-start*) 
-                                  (second *emacs-load-start*)))))
+(message ".emacs loaded in %ds"
+         (destructuring-bind (hi lo ms)
+             (current-time)
+           (- (+ hi lo)
+              (+ (first *emacs-load-start*)
+                 (second *emacs-load-start*)))))
