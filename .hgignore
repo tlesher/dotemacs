@@ -7,3 +7,4 @@ elpa/
 url/
 \#.*\#
 \.elc$
+ac-comphist.dat
