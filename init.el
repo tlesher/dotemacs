@@ -6,13 +6,13 @@
   (add-path "lisp")
   (add-path "init"))
 
+(require 'init-autocomplete)
 (require 'init-deft)
 (require 'init-fill)
 (require 'init-org)
+(require 'init-python)
 (require 'init-utils)
 (require 'init-vocollect)
-(require 'init-autocomplete)
-(require 'init-python)
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)
