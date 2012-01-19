@@ -108,11 +108,6 @@
                                                   buffer-file-name))))
       (global-set-key [f12] 'explorer)))
 
-; TODO: Figure out how to tell c-mode about map macros:
-; BEGIN_MSG_MAP(), MESSAGE_HANDLER(), END_MSG_MAP, etc.
-(c-add-style "vocollect" vocollect-c-style)
-
-
 ;; Python mode settings
 (defun tdl-python-mode-setup ()
   (setq indent-tabs-mode nil)
