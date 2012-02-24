@@ -1,8 +1,9 @@
+
 (require 'cl)
 (defvar *emacs-load-start* (current-time))
 
 (labels ((add-path (p)
-                   (add-to-list 'load-path (concat "~/.emacs.d/" p))))
+                   (add-to-list 'load-path (concat user-emacs-directory p))))
   (add-path "lisp")
   (add-path "init"))
 
@@ -14,8 +15,19 @@
 (require 'init-utils)
 (require 'init-vocollect)
 
-(setq custom-file "~/.emacs.d/custom.el")
+(setq custom-file (concat user-emacs-directory "custom.el"))
 (load custom-file 'noerror)
+
+(when (load "flymake" t)
+  (add-hook 'find-file-hook 'flymake-find-file-hook)
+  (require 'flymake-cursor)
+  (global-set-key [f10] 'flymake-goto-prev-error)
+  (global-set-key [f11] 'flymake-goto-next-error)
+  
+  ;; Instead of raising a dialog, just warn via *Messages*
+  (defun flymake-display-warning (warning)
+    (message warning))
+  )
 
 ;; server-running-p returns ":other" on win32 if it's not sure,
 ;; so don't just check (unless (server-running-p))
@@ -63,7 +75,9 @@
 
 ;; Add commonly-used files in registers, so I can C-x r j e to get to
 ;; init.el, for example.
+;(set-register ?e '(file . (concat user-emacs-directory "init.el")))
 (set-register ?e '(file . "~/.emacs.d/init.el"))
+
 
 
 ;; No tabs.
