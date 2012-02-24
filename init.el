@@ -2,8 +2,9 @@
 (require 'cl)
 (defvar *emacs-load-start* (current-time))
 
-(labels ((add-path (p)
-                   (add-to-list 'load-path (concat user-emacs-directory p))))
+(labels 
+    ((add-path (p)
+               (add-to-list 'load-path (concat user-emacs-directory p))))
   (add-path "lisp")
   (add-path "init"))
 
@@ -77,8 +78,6 @@
 ;; init.el, for example.
 ;(set-register ?e '(file . (concat user-emacs-directory "init.el")))
 (set-register ?e '(file . "~/.emacs.d/init.el"))
-
-
 
 ;; No tabs.
 (setq-default indent-tabs-mode nil)
