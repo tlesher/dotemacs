@@ -6,6 +6,10 @@
   (add-path "lisp")
   (add-path "init"))
 
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file 'noerror)
+
+(require 'init-ui)
 (require 'init-deft)
 (require 'init-fill)
 (require 'init-org)
@@ -14,13 +18,6 @@
 (require 'init-autocomplete)
 (require 'init-python)
 
-(setq custom-file "~/.emacs.d/custom.el")
-(load custom-file 'noerror)
-
-;; server-running-p returns ":other" on win32 if it's not sure,
-;; so don't just check (unless (server-running-p))
-(require 'server)
-(unless (eq (server-running-p) 't) (server-start))
 
 ;;; Hide-lines
 (autoload 'hide-lines "hide-lines" "Hide lines based on a regexp" t)
@@ -29,8 +26,6 @@
 
 (ido-mode 1)
 
-(global-linum-mode)
-(global-set-key "\C-c\C-l" 'linum-mode)
 
 ;; Use ibuffer as a better list-buffers
 ;; from http://xahlee.org/emacs/effective_emacs.html
@@ -47,16 +42,6 @@
 ;; strings from the P4 server at initialization.
 ;; (require 'p4)
 
-(menu-bar-mode 0)
-(scroll-bar-mode 0)
-(tool-bar-mode 0)
-(line-number-mode t)
-(column-number-mode t)
-(show-paren-mode 1)
-(setq visible-bell t)
-(setq transient-mark-mode t)
-(fset 'yes-or-no-p 'y-or-n-p)
-(setq inhibit-startup-screen t)
 (setq make-backup-files nil)
 
 (setq c-basic-offset 4)
@@ -77,13 +62,6 @@
 (global-set-key [?\C-x ?\C-j] 'find-file-at-point)
 (global-set-key "\C-c\C-r" 'revert-buffer)
 (global-set-key [f5] 'compile)
-
-;; More useful frame title
-(setq frame-title-format
-      '("" invocation-name ": "
-        (:eval (if (buffer-file-name)
-                   (abbreviate-file-name (buffer-file-name))
-                 "%b"))))
 
 ;; Avoid minimizing when I accidentally C-z
 (global-unset-key [?\C-z])
@@ -112,6 +90,12 @@
                '("elpa" . "http://tromey.com/elpa/"))
   (add-to-list 'package-archives
                '("marmalade" . "http://marmalade-repo.org/packages/")))
+
+;; server-running-p returns ":other" on win32 if it's not sure,
+;; so don't just check (unless (server-running-p))
+(require 'server)
+(unless (eq (server-running-p) 't) (server-start))
+
 
 
 (message ".emacs loaded in %ds"
