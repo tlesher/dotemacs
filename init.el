@@ -19,6 +19,10 @@
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (load custom-file 'noerror)
 
+;;; Disambiguate buffers visiting files with the same name
+(require 'uniquify) 
+(setq uniquify-buffer-name-style 'forward)
+
 (when (load "flymake" t)
   (add-hook 'find-file-hook 'flymake-find-file-hook)
   (require 'flymake-cursor)
