@@ -87,8 +87,9 @@
 (put 'narrow-to-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 
-(global-set-key [?\C-x ?\C-j] 'find-file-at-point)
 (global-set-key "\C-c\C-r" 'revert-buffer)
+(global-set-key "\C-x\C-l" 'sort-lines)
+(global-set-key [?\C-x ?\C-j] 'find-file-at-point)
 (global-set-key [f5] 'compile)
 
 ;; More useful frame title
@@ -125,7 +126,6 @@
                '("elpa" . "http://tromey.com/elpa/"))
   (add-to-list 'package-archives
                '("marmalade" . "http://marmalade-repo.org/packages/")))
-
 
 (message ".emacs loaded in %ds"
          (destructuring-bind (hi lo ms)
