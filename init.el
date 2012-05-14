@@ -19,6 +19,7 @@
 (require 'init-ui)
 (require 'init-utils)
 (require 'init-vocollect)
+(require 'init-nav)
 
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (load custom-file 'noerror)
