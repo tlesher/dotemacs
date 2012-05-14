@@ -6,7 +6,9 @@
  ;; If there is more than one, they won't work right.
  '(flymake-gui-warnings-enabled nil)
  '(ido-enable-flex-matching t)
- '(ido-everywhere t))
+ '(ido-everywhere t)
+ '(jiralib-url "http://jira1.vocollect.int:8080/")
+ '(org-jira-working-dir "o:/org/jira"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

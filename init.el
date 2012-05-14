@@ -1,4 +1,3 @@
-
 (require 'cl)
 (defvar *emacs-load-start* (current-time))
 
@@ -6,7 +5,8 @@
     ((add-path (p)
                (add-to-list 'load-path (concat user-emacs-directory p))))
   (add-path "lisp")
-  (add-path "init"))
+  (add-path "init")
+  (add-path "lisp/jira"))
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)
