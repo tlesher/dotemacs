@@ -20,6 +20,7 @@
 (require 'init-utils)
 (require 'init-vocollect)
 (require 'init-nav)
+(require 'init-p4)
 
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (load custom-file 'noerror)
@@ -61,11 +62,6 @@
 (defalias 'rs 'replace-string)
 (defalias 'qr 'query-replace)
 (defalias 'qrr 'query-replace-regexp)
-
-;; Commented out because it causes init.el to load slowly
-;; Appears to be caused by p4-mode trying to load all help
-;; strings from the P4 server at initialization.
-;; (require 'p4)
 
 (setq make-backup-files nil)
 
