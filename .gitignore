@@ -4,3 +4,4 @@ elpa/
 server/
 ac-comphist.dat
 session.*
+eshell/
