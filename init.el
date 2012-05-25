@@ -82,6 +82,7 @@
 
 (global-set-key "\C-c\C-r" 'revert-buffer)
 (global-set-key "\C-x\C-l" 'sort-lines)
+(global-set-key "\C-x\C-z" 'fixup-whitespace)
 (global-set-key [?\C-x ?\C-j] 'find-file-at-point)
 (global-set-key [f5] 'compile)
 
