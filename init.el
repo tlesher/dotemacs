@@ -11,14 +11,14 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)
 
+(require 'init-ui)
 (require 'init-autocomplete)
 (require 'init-deft)
 (require 'init-fill)
-(require 'init-org)
+(ignore-errors (require 'init-org))
 (require 'init-python)
-(require 'init-ui)
 (require 'init-utils)
-(require 'init-vocollect)
+(ignore-errors (require 'init-google))
 (require 'init-nav)
 (require 'init-p4)
 
@@ -119,9 +119,6 @@
 ;; so don't just check (unless (server-running-p))
 (require 'server)
 (unless (eq (server-running-p) 't) (server-start))
-
-
-
 
 (message ".emacs loaded in %ds"
          (destructuring-bind (hi lo ms)
