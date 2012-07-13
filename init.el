@@ -86,6 +86,9 @@
 (global-set-key [?\C-x ?\C-j] 'find-file-at-point)
 (global-set-key [f5] 'compile)
 
+(global-set-key [M-down] 'next-error)
+(global-set-key [M-up] '(lambda () (interactive) (next-error -1)))
+
 ;; Avoid minimizing when I accidentally C-z
 (global-unset-key [?\C-z])
 (global-unset-key [?\C-x ?\C-z])
