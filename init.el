@@ -82,16 +82,16 @@
 
 (global-set-key "\C-c\C-r" 'revert-buffer)
 (global-set-key "\C-x\C-l" 'sort-lines)
-(global-set-key "\C-x\C-z" 'fixup-whitespace)
+(global-set-key "\C-x\C-z" 'fixup-whitespace) 
 (global-set-key [?\C-x ?\C-j] 'find-file-at-point)
 (global-set-key [f5] 'compile)
-
 (global-set-key [M-down] 'next-error)
 (global-set-key [M-up] '(lambda () (interactive) (next-error -1)))
+(global-set-key (kbd "C-S-f") 'find-file-at-point)
+
 
 ;; Avoid minimizing when I accidentally C-z
 (global-unset-key [?\C-z])
-(global-unset-key [?\C-x ?\C-z])
 
 ;; Quick window switching
 (global-set-key "\C-o" 'other-window)
