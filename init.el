@@ -1,15 +1,12 @@
 (require 'cl)
 (defvar *emacs-load-start* (current-time))
 
-(labels 
+(labels
     ((add-path (p)
                (add-to-list 'load-path (concat user-emacs-directory p))))
   (add-path "lisp")
   (add-path "init")
   (add-path "lisp/jira"))
-
-(setq custom-file "~/.emacs.d/custom.el")
-(load custom-file 'noerror)
 
 (require 'init-ui)
 (require 'init-autocomplete)
@@ -25,8 +22,13 @@
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (load custom-file 'noerror)
 
+;; create the autosave dir if necessary, since emacs won't.
+;; Do this after loading custom.el.
+(make-directory "~/.emacs.d/tmp/autosaves/" t)
+
+
 ;;; Disambiguate buffers visiting files with the same name
-(require 'uniquify) 
+(require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
 
 (when (load "flymake" t)
@@ -34,7 +36,7 @@
   (require 'flymake-cursor)
   (global-set-key [f10] 'flymake-goto-prev-error)
   (global-set-key [f11] 'flymake-goto-next-error)
-  
+
   ;; Instead of raising a dialog, just warn via *Messages*
   (defun flymake-display-warning (warning)
     (message warning))
@@ -82,9 +84,10 @@
 
 (global-set-key "\C-c\C-r" 'revert-buffer)
 (global-set-key "\C-x\C-l" 'sort-lines)
-(global-set-key "\C-x\C-z" 'fixup-whitespace) 
+(global-set-key "\C-x\C-z" 'fixup-whitespace)
 (global-set-key [?\C-x ?\C-j] 'find-file-at-point)
 (global-set-key [f5] 'compile)
+(global-set-key [(shift f5)] 'recompile)
 (global-set-key [M-down] 'next-error)
 (global-set-key [M-up] '(lambda () (interactive) (next-error -1)))
 (global-set-key (kbd "C-S-f") 'find-file-at-point)
@@ -100,9 +103,12 @@
   (other-window -1))
 (global-set-key "\M-o" 'prev-window)
 
+; Really obsoletes quick window switching, but see if I get used to it...
+(windmove-default-keybindings)
+
 (if (eq system-type 'windows-nt)
     (progn
-      (defun explorer () 
+      (defun explorer ()
         "Launch Windows Explorer in current directory and select current file"
         (interactive)
         (w32-shell-execute "open" "explorer"
