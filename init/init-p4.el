@@ -6,6 +6,3 @@
 (autoload 'p4-edit "p4" "Open the file for editing." "t")
 
 (provide 'init-p4)
-
-
-
