@@ -6,4 +6,4 @@ ac-comphist.dat
 session.*
 eshell/
 init/init-google.el
-
+tmp/
