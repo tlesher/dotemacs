@@ -1,5 +1,10 @@
 (require 'cl)
-(defvar *emacs-load-start* (current-time))
+(defvar *emacs-load-start* (float-time))
+
+(defun mark-load-time (comment)
+  "Print a message with the current elapsed load time.
+Use for debugging why emacs is slow to start."
+  (message "%s: %.2fs" comment (- (float-time) *emacs-load-start*)))
 
 (labels
     ((add-path (p)
@@ -129,9 +134,4 @@
 (require 'server)
 (unless (eq (server-running-p) 't) (server-start))
 
-(message ".emacs loaded in %ds"
-         (destructuring-bind (hi lo ms)
-             (current-time)
-           (- (+ hi lo)
-              (+ (first *emacs-load-start*)
-                 (second *emacs-load-start*)))))
+(message ".emacs loaded in %.2fs" (- (float-time) *emacs-load-start*))
