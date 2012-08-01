@@ -22,6 +22,7 @@ Use for debugging why emacs is slow to start."
 (ignore-errors (require 'init-google))
 (require 'init-nav)
 (require 'init-p4)
+(require 'init-flymake)
 
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (load custom-file 'noerror)
@@ -34,17 +35,6 @@ Use for debugging why emacs is slow to start."
 ;;; Disambiguate buffers visiting files with the same name
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
-
-(when (load "flymake" t)
-  (add-hook 'find-file-hook 'flymake-find-file-hook)
-  (require 'flymake-cursor)
-  (global-set-key [f10] 'flymake-goto-prev-error)
-  (global-set-key [f11] 'flymake-goto-next-error)
-
-  ;; Instead of raising a dialog, just warn via *Messages*
-  (defun flymake-display-warning (warning)
-    (message warning))
-  )
 
 ;; server-running-p returns ":other" on win32 if it's not sure,
 ;; so don't just check (unless (server-running-p))
