@@ -71,11 +71,6 @@ Use for debugging why emacs is slow to start."
 ;; No tabs.
 (setq-default indent-tabs-mode nil)
 
-;; Enable "dangerous" commands I use
-(put 'erase-buffer 'disabled nil)
-(put 'narrow-to-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
-
 (global-set-key "\C-c\C-r" 'revert-buffer)
 (global-set-key "\C-x\C-l" 'sort-lines)
 (global-set-key "\C-x\C-z" 'fixup-whitespace)
