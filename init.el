@@ -80,12 +80,10 @@ Use for debugging why emacs is slow to start."
 (global-set-key [M-down] 'next-error)
 (global-set-key [M-up] '(lambda () (interactive) (next-error -1)))
 (global-set-key (kbd "C-S-f") 'find-file-at-point)
+(global-set-key [?\C-z] 'undo)
 
-
-;; Avoid minimizing when I accidentally C-z
-(global-unset-key [?\C-z])
-
-;; Quick window switching
+;; Quick window switching; from GRB
+;; (https://github.com/garybernhardt/dotfiles/blob/master/.emacs)
 (global-set-key "\C-o" 'other-window)
 (defun prev-window()
   (interactive)
