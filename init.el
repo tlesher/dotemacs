@@ -6,11 +6,15 @@
 Use for debugging why emacs is slow to start."
   (message "%s: %.2fs" comment (- (float-time) *emacs-load-start*)))
 
+(setq custom-file (concat user-emacs-directory "custom.el"))
+(load custom-file 'noerror)
+
 (labels
     ((add-path (p)
                (add-to-list 'load-path (concat user-emacs-directory p))))
   (add-path "lisp")
   (add-path "init"))
+
 
 (require 'init-ui)
 (require 'init-autocomplete)
@@ -24,8 +28,6 @@ Use for debugging why emacs is slow to start."
 (require 'init-p4)
 (require 'init-flymake)
 
-(setq custom-file (concat user-emacs-directory "custom.el"))
-(load custom-file 'noerror)
 
 ;; create the autosave dir if necessary, since emacs won't.
 ;; Do this after loading custom.el.
