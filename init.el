@@ -15,7 +15,6 @@ Use for debugging why emacs is slow to start."
   (add-path "lisp")
   (add-path "init"))
 
-
 (require 'init-ui)
 (require 'init-autocomplete)
 (require 'init-deft)
@@ -28,11 +27,9 @@ Use for debugging why emacs is slow to start."
 (require 'init-p4)
 (require 'init-flymake)
 
-
 ;; create the autosave dir if necessary, since emacs won't.
 ;; Do this after loading custom.el.
 (make-directory "~/.emacs.d/tmp/autosaves/" t)
-
 
 ;;; Disambiguate buffers visiting files with the same name
 (require 'uniquify)
@@ -67,7 +64,6 @@ Use for debugging why emacs is slow to start."
 
 ;; Add commonly-used files in registers, so I can C-x r j e to get to
 ;; init.el, for example.
-;(set-register ?e '(file . (concat user-emacs-directory "init.el")))
 (set-register ?e '(file . "~/.emacs.d/init.el"))
 
 ;; No tabs.
@@ -111,11 +107,5 @@ Use for debugging why emacs is slow to start."
                '("elpa" . "http://tromey.com/elpa/"))
   (add-to-list 'package-archives
                '("marmalade" . "http://marmalade-repo.org/packages/")))
-
-
-;; server-running-p returns ":other" on win32 if it's not sure,
-;; so don't just check (unless (server-running-p))
-(require 'server)
-(unless (eq (server-running-p) 't) (server-start))
 
 (message ".emacs loaded in %.2fs" (- (float-time) *emacs-load-start*))
