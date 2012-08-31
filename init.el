@@ -101,6 +101,12 @@ Use for debugging why emacs is slow to start."
                                                   buffer-file-name))))
       (global-set-key [f12] 'explorer)))
 
+;; I don't always (browse-url-of-buffer), but when I do, I prefer to use
+;; Chrome.
+(when (executable-find "google-chrome")
+  (setq browse-url-generic-program (executable-find "google-chrome")
+        browse-url-browser-function 'browse-url-generic))
+
 ;; What has it gots in its packages?
 (when (boundp 'package-archives)
   (add-to-list 'package-archives
