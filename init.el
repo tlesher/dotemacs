@@ -47,7 +47,6 @@ Use for debugging why emacs is slow to start."
 
 (ido-mode 1)
 
-
 ;; Use ibuffer as a better list-buffers
 ;; from http://xahlee.org/emacs/effective_emacs.html
 (defalias 'list-buffers 'ibuffer)
@@ -69,17 +68,18 @@ Use for debugging why emacs is slow to start."
 ;; No tabs.
 (setq-default indent-tabs-mode nil)
 
+;; Random keybindings
+;; TODO: figure out how to avoid clashing with the bindings in
+;; init-google.
+(global-set-key [f5] 'compile)
+(global-set-key [(shift f5)] 'recompile)
 (global-set-key "\C-c\C-r" 'revert-buffer)
 (global-set-key "\C-x\C-l" 'sort-lines)
 (global-set-key "\C-x\C-z" 'fixup-whitespace)
-(global-set-key [?\C-x ?\C-j] 'find-file-at-point)
-(global-set-key [f5] 'compile)
-(global-set-key [(shift f5)] 'recompile)
 (global-set-key [M-down] 'next-error)
 (global-set-key [M-up] '(lambda () (interactive) (next-error -1)))
 (global-set-key (kbd "C-S-f") 'find-file-at-point)
 (global-set-key [?\C-z] 'undo)
-
 ;; Quick window switching; from GRB
 ;; (https://github.com/garybernhardt/dotfiles/blob/master/.emacs)
 (global-set-key "\C-o" 'other-window)
@@ -87,9 +87,14 @@ Use for debugging why emacs is slow to start."
   (interactive)
   (other-window -1))
 (global-set-key "\M-o" 'prev-window)
-
-; Really obsoletes quick window switching, but see if I get used to it...
+;; use windmove to switch between buffers and buffer-move to throw
+;; them around.
 (windmove-default-keybindings)
+(require 'buffer-move)
+(global-set-key (kbd "<C-S-left>") 'buf-move-left)
+(global-set-key (kbd "<C-S-right>") 'buf-move-right)
+(global-set-key (kbd "<C-S-up>") 'buf-move-up)
+(global-set-key (kbd "<C-S-up>") 'buf-move-down)
 
 (if (eq system-type 'windows-nt)
     (progn
