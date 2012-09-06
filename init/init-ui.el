@@ -13,8 +13,8 @@
 (setq inhibit-startup-screen t)
 
 (require 'show-wspace)
-(add-hook 'font-lock-mode-hook 'show-ws-highlight-tabs)
-(add-hook 'font-lock-mode-hook 'show-ws-highlight-trailing-whitespace)
+(add-hook 'font-lock-mode-hook 'ws-highlight-tabs)
+(add-hook 'font-lock-mode-hook 'ws-highlight-trailing-whitespace)
 
 (global-linum-mode)
 (global-set-key "\C-c\C-l" 'linum-mode)
