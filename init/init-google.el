@@ -1,1 +1,1 @@
-/usr/local/google/home/tlesher/.gemacs.d/init/init-google.el
+/home/tlesher/.gemacs.d/init/init-google.el
