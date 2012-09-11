@@ -27,6 +27,7 @@ Use for debugging why emacs is slow to start."
 (require 'init-p4)
 (require 'init-flymake)
 
+(require 'ack)
 ;; create the autosave dir if necessary, since emacs won't.
 ;; Do this after loading custom.el.
 (make-directory "~/.emacs.d/tmp/autosaves/" t)
@@ -94,7 +95,7 @@ Use for debugging why emacs is slow to start."
 (global-set-key (kbd "<C-S-left>") 'buf-move-left)
 (global-set-key (kbd "<C-S-right>") 'buf-move-right)
 (global-set-key (kbd "<C-S-up>") 'buf-move-up)
-(global-set-key (kbd "<C-S-up>") 'buf-move-down)
+(global-set-key (kbd "<C-S-down>") 'buf-move-down)
 
 (if (eq system-type 'windows-nt)
     (progn
