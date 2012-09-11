@@ -26,6 +26,7 @@ Use for debugging why emacs is slow to start."
 (require 'init-nav)
 (require 'init-p4)
 (require 'init-flymake)
+(require 'init-windows)
 
 (require 'ack)
 ;; create the autosave dir if necessary, since emacs won't.
@@ -96,16 +97,6 @@ Use for debugging why emacs is slow to start."
 (global-set-key (kbd "<C-S-right>") 'buf-move-right)
 (global-set-key (kbd "<C-S-up>") 'buf-move-up)
 (global-set-key (kbd "<C-S-down>") 'buf-move-down)
-
-(if (eq system-type 'windows-nt)
-    (progn
-      (defun explorer ()
-        "Launch Windows Explorer in current directory and select current file"
-        (interactive)
-        (w32-shell-execute "open" "explorer"
-                           (concat "/e,/select," (convert-standard-filename
-                                                  buffer-file-name))))
-      (global-set-key [f12] 'explorer)))
 
 ;; I don't always (browse-url-of-buffer), but when I do, I prefer to use
 ;; Chrome.
