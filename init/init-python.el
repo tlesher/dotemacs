@@ -1,9 +1,10 @@
 ;; Python mode settings
 (defun tdl-python-mode-setup ()
-  (setq indent-tabs-mode nil)
   (setq py-indent-offset 4)
   (define-key python-mode-map "\C-m" 'newline-and-indent)
-  (setq compile-command "py.test")
+  (set (make-local-variable 'compile-command) "py.test")
+  (set (make-local-variable 'indent-tabs-mode) nil)
+
   ;; (pymacs-load "ropemacs" "rope-")
   )
 (add-hook 'python-mode-hook 'tdl-python-mode-setup)
