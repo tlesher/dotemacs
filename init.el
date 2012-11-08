@@ -85,20 +85,15 @@ Use for debugging why emacs is slow to start."
 ;; init-google.
 (global-set-key [f5] 'compile)
 (global-set-key [(shift f5)] 'recompile)
-(global-set-key "\C-c\C-r" 'revert-buffer)
+(global-set-key "\C-cr" 'revert-buffer)
 (global-set-key "\C-x\C-l" 'sort-lines)
 (global-set-key "\C-x\C-z" 'fixup-whitespace)
 (global-set-key [M-down] 'next-error)
 (global-set-key [M-up] '(lambda () (interactive) (next-error -1)))
 (global-set-key (kbd "C-S-f") 'find-file-at-point)
+(global-set-key "\C-cf" 'find-file-at-point)
 (global-set-key [?\C-z] 'undo)
-;; Quick window switching; from GRB
-;; (https://github.com/garybernhardt/dotfiles/blob/master/.emacs)
-(global-set-key "\C-o" 'other-window)
-(defun prev-window()
-  (interactive)
-  (other-window -1))
-(global-set-key "\M-o" 'prev-window)
+
 ;; use windmove to switch between buffers and buffer-move to throw
 ;; them around.
 (windmove-default-keybindings)
