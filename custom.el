@@ -10,17 +10,16 @@
  '(auto-save-file-name-transforms '((".*" "~/.emacs.d/tmp/autosaves/\\1" t)))
  '(backup-directory-alist '((".*" . "~/.emacs.d/tmp/backups/"))))
 
-
-
-
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 80 :width normal :foundry "unknown" :family "DejaVu Sans Mono"))) nil (quote (flymake-warnline ((((class color)) (:underline "yellow"))))))
+ '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 80 :width normal :foundry "unknown" :family "DejaVu Sans Mono"))) nil (quote (flymake-warnline ((((class color)) (:underline "yellow"))))))
  '(flymake-errline ((t (:underline "red"))))
- '(flymake-warnline ((t (:underline "gold"))))
+ '(flymake-warnline ((t (:underline "gold")))))
+ '(flymake-errline ((t (:underline "red"))))
+ '(flymake-warnline ((t (:underline "gold")))
  '(ediff-current-diff-A ((((class color) (min-colors 16)) (:background "Pink"))))
  '(ediff-current-diff-Ancestor ((((class color) (min-colors 16)) (:background "#ffbbdd"))))
  '(ediff-current-diff-B ((((class color) (min-colors 16)) (:background "#ccffcc"))))
