@@ -22,13 +22,23 @@ Use for debugging why emacs is slow to start."
 (require 'init-org)
 (require 'init-python)
 (require 'init-utils)
-(ignore-errors (require 'init-google))
+;(ignore-errors (require 'init-google))
+(mark-load-time "init-utils")
+(require 'init-google)
+(mark-load-time "init-google")
 (require 'init-nav)
+(mark-load-time "init-nav")
 (require 'init-p4)
+(mark-load-time "init-p4")
 (require 'init-flymake)
+(mark-load-time "init-flymake")
+
 (require 'init-windows)
+(mark-load-time "init-windows")
 
 (require 'ack)
+(mark-load-time "init-ack")
+
 ;; create the autosave dir if necessary, since emacs won't.
 ;; Do this after loading custom.el.
 (make-directory "~/.emacs.d/tmp/autosaves/" t)
