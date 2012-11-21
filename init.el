@@ -22,7 +22,6 @@ Use for debugging why emacs is slow to start."
 (require 'init-org)
 (require 'init-python)
 (require 'init-utils)
-;(ignore-errors (require 'init-google))
 (mark-load-time "init-utils")
 (require 'init-google)
 (mark-load-time "init-google")
