@@ -46,10 +46,15 @@ Use for debugging why emacs is slow to start."
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
 
+(require 'server)
 ;; server-running-p returns ":other" on win32 if it's not sure,
 ;; so don't just check (unless (server-running-p))
-(require 'server)
 (unless (eq (server-running-p) 't) (server-start))
+(defun server-start-dammit ()
+  "Kill any existing server and start a new one in this process."
+  (interactive)
+  (server-force-delete)
+  (server-start))
 
 ;;; Hide-lines
 (autoload 'hide-lines "hide-lines" "Hide lines based on a regexp" t)
