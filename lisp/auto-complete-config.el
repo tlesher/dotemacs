@@ -454,8 +454,10 @@
 
 ;;;; Default settings
 
-(defun ac-common-setup ()
-  (add-to-list 'ac-sources 'ac-source-filename))
+(defun ac-common-setup () ())
+;; Don't use ac-source-filename, because it expands the C++ and Java
+;; comment prefix "//" into a filename path
+;;  (add-to-list 'ac-sources 'ac-source-filename))
 
 (defun ac-emacs-lisp-mode-setup ()
   (setq ac-sources (append '(ac-source-features ac-source-functions ac-source-yasnippet ac-source-variables ac-source-symbols) ac-sources)))
