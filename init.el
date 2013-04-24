@@ -13,8 +13,9 @@ Use for debugging why emacs is slow to start."
     ((add-path (p)
                (add-to-list 'load-path (concat user-emacs-directory p))))
   (add-path "lisp")
+  (add-path "lisp/yasnippet")
   (add-path "init"))
-
+(require 'init-archive-messages)
 (require 'init-ui)
 (require 'init-autocomplete)
 (require 'init-deft)
@@ -23,7 +24,7 @@ Use for debugging why emacs is slow to start."
 (require 'init-python)
 (require 'init-utils)
 (mark-load-time "init-utils")
-(require 'init-google)
+(ignore-errors (require 'init-google))
 (mark-load-time "init-google")
 (require 'init-nav)
 (mark-load-time "init-nav")
@@ -35,8 +36,12 @@ Use for debugging why emacs is slow to start."
 (require 'init-windows)
 (mark-load-time "init-windows")
 
-(require 'ack)
-(mark-load-time "init-ack")
+(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
+(add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
+(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
+
+(require 'yasnippet)
+(yas-global-mode 1)
 
 ;; create the autosave dir if necessary, since emacs won't.
 ;; Do this after loading custom.el.
@@ -45,6 +50,9 @@ Use for debugging why emacs is slow to start."
 ;;; Disambiguate buffers visiting files with the same name
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
+(add-to-list 'uniquify-list-buffers-directory-modes 'shell-mode)
+(add-to-list 'uniquify-list-buffers-directory-modes 'term-mode)
+(add-to-list 'uniquify-list-buffers-directory-modes 'compilation-mode)
 
 (require 'server)
 ;; server-running-p returns ":other" on win32 if it's not sure,
@@ -72,6 +80,8 @@ Use for debugging why emacs is slow to start."
 (defalias 'rs 'replace-string)
 (defalias 'qr 'query-replace)
 (defalias 'qrr 'query-replace-regexp)
+(defalias 'fg 'grep-find)
+(defalias 'gf 'find-grep) ;; LOL
 
 (setq make-backup-files nil)
 
@@ -80,6 +90,7 @@ Use for debugging why emacs is slow to start."
 ;; Add commonly-used files in registers, so I can C-x r j e to get to
 ;; init.el, for example.
 (set-register ?e '(file . "~/.emacs.d/init.el"))
+(set-register ?a '(file . "~/.config/awesome/rc.lua"))
 
 ;; No tabs.
 (setq-default indent-tabs-mode nil)
@@ -91,9 +102,23 @@ Use for debugging why emacs is slow to start."
 (global-set-key [(shift f5)] 'recompile)
 (global-set-key "\C-cr" 'revert-buffer)
 (global-set-key "\C-x\C-l" 'sort-lines)
-(global-set-key "\C-x\C-z" 'fixup-whitespace)
+
+(defun mn-just-one-space ()
+  "When called for the first time Works just like `just-one-space'.
+When called second time deletes all spaces, tabs and new lines after
+the point."
+  (interactive)
+  (just-one-space (if (equal last-command this-command) -1 1)))
+
+(substitute-key-definition 'just-one-space 'mn-just-one-space
+                           (current-global-map))
+(global-set-key "\C-x\C-z" 'mn-just-one-space)
+
 (global-set-key [M-down] 'next-error)
 (global-set-key [M-up] '(lambda () (interactive) (next-error -1)))
+;; Just like M-down/M-up, but for nonwindowed Emacs
+(global-set-key (kbd "ESC <down>") 'next-error)
+(global-set-key (kbd "ESC <up>") '(lambda () (interactive) (next-error -1)))
 (global-set-key (kbd "C-S-f") 'find-file-at-point)
 (global-set-key "\C-cf" 'find-file-at-point)
 (global-set-key [?\C-z] 'undo)
@@ -119,5 +144,15 @@ Use for debugging why emacs is slow to start."
                '("elpa" . "http://tromey.com/elpa/"))
   (add-to-list 'package-archives
                '("marmalade" . "http://marmalade-repo.org/packages/")))
+
+(defun insert-todo (arg)
+  "Insert '// TODO(username): ' at point."
+  (interactive "*P")
+  (let ()
+    (comment-dwim arg)
+    (insert "TODO(" (user-login-name) "): \n")
+    (forward-char -1)))
+
+(global-set-key "\C-ct" 'insert-todo)
 
 (message ".emacs loaded in %.2fs" (- (float-time) *emacs-load-start*))
