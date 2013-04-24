@@ -40,8 +40,10 @@ Use for debugging why emacs is slow to start."
 (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
 (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 
-(require 'yasnippet)
-(yas-global-mode 1)
+;; Load yasnippet if it's available.
+(ignore-errors
+  (require 'yasnippet)
+  (yas-global-mode 1))
 
 ;; create the autosave dir if necessary, since emacs won't.
 ;; Do this after loading custom.el.
