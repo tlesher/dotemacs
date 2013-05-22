@@ -1,9 +1,9 @@
 ;; TODO: Fix the default font via DPI tweaking, not customize
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(auto-save-file-name-transforms (quote ((".*" "~/.emacs.d/tmp/autosaves/\\1" t))))
  '(backup-directory-alist (quote ((".*" . "~/.emacs.d/tmp/backups/"))))
  '(flymake-gui-warnings-enabled nil)
@@ -12,13 +12,14 @@
  '(org-agenda-files (quote ("~/organizer.org"))))
 
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 80 :width normal :foundry "unknown" :family "DejaVu Sans Mono"))) nil (quote (flymake-warnline ((((class color)) (:underline "yellow"))))))
  '(flymake-errline ((t (:underline "red"))))
- '(flymake-warnline ((t (:underline "gold")))))
+ '(flymake-warnline ((t (:underline "gold"))))
+ '(mode-line ((t (:background "grey75" :foreground "black" :box (:line-width -1 :style released-button) :family "Verdana")))))
  '(flymake-errline ((t (:underline "red"))))
  '(flymake-warnline ((t (:underline "gold")))
  '(ediff-current-diff-A ((((class color) (min-colors 16)) (:background "Pink"))))
