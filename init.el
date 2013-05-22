@@ -1,14 +1,19 @@
 (require 'cl)
 (defvar *emacs-load-start* (float-time))
 
+;; For future reference: emacs startup in graphics mode on tlesher.pit
+;; with init-google as of 2013-05-22 is 1.58-2.1s.
+
 (defun mark-load-time (comment)
   "Print a message with the current elapsed load time.
-Use for debugging why emacs is slow to start."
+Use for debugging slow emacs startup."
   (message "%s: %.2fs" comment (- (float-time) *emacs-load-start*)))
 
+;; Load custom early.
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (load custom-file 'noerror)
 
+;; Extend load path to select .emacs.d subdirectories.
 (labels
     ((add-path (p)
                (add-to-list 'load-path (concat user-emacs-directory p))))
@@ -24,18 +29,15 @@ Use for debugging why emacs is slow to start."
 (require 'init-org)
 (require 'init-python)
 (require 'init-utils)
-(mark-load-time "init-utils")
-(ignore-errors (require 'init-google))
-(mark-load-time "init-google")
+(ignore-errors (require 'init-google))  ; don't crash when running
+                                        ; outside teh gewgols.
 (require 'init-nav)
-(mark-load-time "init-nav")
 (require 'init-p4)
-(mark-load-time "init-p4")
 (require 'init-flymake)
-(mark-load-time "init-flymake")
-
 (require 'init-windows)
-(mark-load-time "init-windows")
+
+;;;; Miscellaneous settings.  Move these to init-* modules when they
+;;;; grow large enough to stand on their own.
 
 (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
 (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
@@ -155,9 +157,9 @@ the point."
     (comment-dwim arg)
     (insert "TODO(" (user-login-name) "): \n")
     (forward-char -1)))
-
 (global-set-key "\C-ct" 'insert-todo)
 
+;; Abbrevs.
 (setq default-abbrev-mode t)
 (setq abbrev-file-name "~/.emacs.d/abbrev-defs" )
 (setq save-abbrevs t)
