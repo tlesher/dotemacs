@@ -15,6 +15,7 @@ Use for debugging why emacs is slow to start."
   (add-path "lisp")
   (add-path "lisp/yasnippet")
   (add-path "init"))
+
 (require 'init-archive-messages)
 (require 'init-ui)
 (require 'init-autocomplete)
@@ -156,5 +157,10 @@ the point."
     (forward-char -1)))
 
 (global-set-key "\C-ct" 'insert-todo)
+
+(setq default-abbrev-mode t)
+(setq abbrev-file-name "~/.emacs.d/abbrev-defs" )
+(setq save-abbrevs t)
+(quietly-read-abbrev-file)
 
 (message ".emacs loaded in %.2fs" (- (float-time) *emacs-load-start*))
