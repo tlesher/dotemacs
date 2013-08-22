@@ -46,7 +46,16 @@ Use for debugging slow emacs startup."
 ;; Load yasnippet if it's available.
 (ignore-errors
   (require 'yasnippet)
-  (yas-global-mode 1))
+  (yas-global-mode 1)
+  (yas/load-directory "~/.emacs.d/yasnippet")
+  (setq ac-source-yasnippet nil))
+
+(defun ami-ido-yank ()
+  (interactive)
+  (insert-string
+   (ido-completing-read "Yank what? "
+                        (mapcar 'substring-no-properties kill-ring))))
+(global-set-key "\C-cy" 'ami-ido-yank)
 
 ;; create the autosave dir if necessary, since emacs won't.
 ;; Do this after loading custom.el.
@@ -75,6 +84,12 @@ Use for debugging slow emacs startup."
 (global-set-key "\C-c\C-h" 'show-all-invisible)
 
 (ido-mode 1)
+;; Disable auto searching for files unless called explicitly.
+(setq ido-auto-merge-delay-time 99999)
+(define-key ido-file-dir-completion-map (kbd "C-c C-s")
+  (lambda()
+    (interactive)
+    (ido-initiate-auto-merge (current-buffer))))
 
 ;; Use ibuffer as a better list-buffers
 ;; from http://xahlee.org/emacs/effective_emacs.html
@@ -128,6 +143,10 @@ the point."
 (global-set-key "\C-cf" 'find-file-at-point)
 (global-set-key [?\C-z] 'undo)
 
+;; Trying out some ESC ESC <key> key bindings for key bindings that
+;; don't work on a tty.
+(global-set-key (kbd "ESC ESC c")  'recompile)
+
 ;; use windmove to switch between buffers and buffer-move to throw
 ;; them around.
 (windmove-default-keybindings)
@@ -136,6 +155,13 @@ the point."
 (global-set-key (kbd "<C-S-right>") 'buf-move-right)
 (global-set-key (kbd "<C-S-up>") 'buf-move-up)
 (global-set-key (kbd "<C-S-down>") 'buf-move-down)
+;; This set of keys stinks on ice: ESC Ctrl-left, etc.
+(global-set-key (kbd "ESC M-[ d") 'buf-move-left)
+(global-set-key (kbd "ESC M-[ c") 'buf-move-right)
+(global-set-key (kbd "ESC M-[ a") 'buf-move-up)
+(global-set-key (kbd "ESC M-[ b") 'buf-move-down)
+;; (global-set-key (kbd "M-[ a") 'forward-paragraph)
+;; (global-set-key (kbd "M-[ b") 'back-
 
 ;; I don't always (browse-url-of-buffer), but when I do, I prefer to use
 ;; Chrome.
@@ -150,6 +176,9 @@ the point."
   (add-to-list 'package-archives
                '("marmalade" . "http://marmalade-repo.org/packages/")))
 
+(setq bookmark-default-file "~/.emacs.d/bookmarks")
+(setq bookmark-save-flag 1)
+
 (defun insert-todo (arg)
   "Insert '// TODO(username): ' at point."
   (interactive "*P")
@@ -159,10 +188,28 @@ the point."
     (forward-char -1)))
 (global-set-key "\C-ct" 'insert-todo)
 
+
+;; Neat hack from http://whattheemacsd.com/setup-shell.el-01.html:
+;; In shell-mode, second press of C-d kills shell buffer.
+(defun comint-delchar-or-eof-or-kill-buffer (arg)
+  (interactive "p")
+  (if (null (get-buffer-process (current-buffer)))
+      (kill-buffer)
+    (comint-delchar-or-maybe-eof arg)))
+(add-hook 'shell-mode-hook
+          (lambda ()
+            (define-key shell-mode-map
+              (kbd "C-d") 'comint-delchar-or-eof-or-kill-buffer)))
+
 ;; Abbrevs.
 (setq default-abbrev-mode t)
 (setq abbrev-file-name "~/.emacs.d/abbrev-defs" )
 (setq save-abbrevs t)
 (quietly-read-abbrev-file)
+
+;; Key frequency mode
+(require 'keyfreq)
+(keyfreq-mode 1)
+(keyfreq-autosave-mode 1)
 
 (message ".emacs loaded in %.2fs" (- (float-time) *emacs-load-start*))
