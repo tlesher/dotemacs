@@ -19,7 +19,9 @@ Use for debugging slow emacs startup."
                (add-to-list 'load-path (concat user-emacs-directory p))))
   (add-path "lisp")
   (add-path "lisp/yasnippet")
-  (add-path "init"))
+  (add-path "init")
+  (add-path "lisp/iedit") ;; EXPERIMENTAL!
+  )
 
 (require 'init-archive-messages)
 (require 'init-ui)
@@ -50,15 +52,8 @@ Use for debugging slow emacs startup."
   (yas/load-directory "~/.emacs.d/yasnippet")
   (setq ac-source-yasnippet nil))
 
-(defun ami-ido-yank ()
-  (interactive)
-  (insert-string
-   (ido-completing-read "Yank what? "
-                        (mapcar 'substring-no-properties kill-ring))))
-(global-set-key "\C-cy" 'ami-ido-yank)
-
 ;; create the autosave dir if necessary, since emacs won't.
-;; Do this after loading custom.el.
+;; Do this after loading custom.el. 
 (make-directory "~/.emacs.d/tmp/autosaves/" t)
 
 ;;; Disambiguate buffers visiting files with the same name
@@ -83,13 +78,22 @@ Use for debugging slow emacs startup."
 (global-set-key "\C-ch" 'hide-lines)
 (global-set-key "\C-c\C-h" 'show-all-invisible)
 
-(ido-mode 1)
-;; Disable auto searching for files unless called explicitly.
-(setq ido-auto-merge-delay-time 99999)
-(define-key ido-file-dir-completion-map (kbd "C-c C-s")
-  (lambda()
-    (interactive)
-    (ido-initiate-auto-merge (current-buffer))))
+;; Whack ido mode for now... it's misbehaving while homedir is offline.
+;; (defun ami-ido-yank ()
+;;   (interactive)
+;;   (insert-string
+;;    (ido-completing-read "Yank what? "
+;;                         (mapcar 'substring-no-properties kill-ring))))
+;; (global-set-key "\C-cy" 'ami-ido-yank)
+
+;; (ido-mode 1)
+;; ;; Disable auto searching for files unless called explicitly.
+;; ;;(setq ido-auto-merge-delay-time 99999)
+;; (define-key ido-file-dir-completion-map (kbd "C-c C-s")
+;;   (lambda()
+;;     (interactive)
+;;     (ido-initiate-auto-merge (current-buffer))))
+
 
 ;; Use ibuffer as a better list-buffers
 ;; from http://xahlee.org/emacs/effective_emacs.html
@@ -130,10 +134,18 @@ the point."
   (interactive)
   (just-one-space (if (equal last-command this-command) -1 1)))
 
+(defun tl-delete-newline-and-fixup-whitespace ()
+  (interactive "*")
+  (save-excursion
+    (end-of-line)
+    (delete-forward-char 1)
+    (fixup-whitespace)))
+(global-set-key "\C-x\C-x" 'delete-newline-and-fixup-whitespace)
+
 (substitute-key-definition 'just-one-space 'mn-just-one-space
                            (current-global-map))
 (global-set-key "\C-x\C-z" 'mn-just-one-space)
-
+(global-set-key "\C-x\C-x" 'fixup-whitespace)
 (global-set-key [M-down] 'next-error)
 (global-set-key [M-up] '(lambda () (interactive) (next-error -1)))
 ;; Just like M-down/M-up, but for nonwindowed Emacs
@@ -174,7 +186,9 @@ the point."
   (add-to-list 'package-archives
                '("elpa" . "http://tromey.com/elpa/"))
   (add-to-list 'package-archives
-               '("marmalade" . "http://marmalade-repo.org/packages/")))
+               '("marmalade" . "http://marmalade-repo.org/packages/"))
+  (add-to-list 'package-archives
+               '("GELPA" . "http://internal-elpa.appspot.com/packages/")))
 
 (setq bookmark-default-file "~/.emacs.d/bookmarks")
 (setq bookmark-save-flag 1)
@@ -211,5 +225,25 @@ the point."
 (require 'keyfreq)
 (keyfreq-mode 1)
 (keyfreq-autosave-mode 1)
+
+;; EXPERIMENTS MAY BITE
+(require 'iedit)
+(defun iedit-dwim (arg)
+  "Starts iedit but uses \\[narrow-to-defun] to limit its scope."
+  (interactive "P")
+  (if arg
+      (iedit-mode)
+    (save-excursion
+      (save-restriction
+        (widen)
+        ;; this function determines the scope of `iedit-start'.
+        (if iedit-mode
+            (iedit-done)
+          ;; `current-word' can of course be replaced by other
+          ;; functions.
+          (narrow-to-defun)
+          (iedit-start (current-word) (point-min) (point-max)))))))
+(global-set-key (kbd "C-;") 'iedit-dwim)
+;; END EXPERIMENTS
 
 (message ".emacs loaded in %.2fs" (- (float-time) *emacs-load-start*))
