@@ -49,7 +49,6 @@ Use for debugging slow emacs startup."
 (ignore-errors
   (require 'yasnippet)
   (yas-global-mode 1)
-  (yas/load-directory "~/.emacs.d/yasnippet")
   (setq ac-source-yasnippet nil))
 
 ;; create the autosave dir if necessary, since emacs won't.
