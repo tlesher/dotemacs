@@ -23,6 +23,8 @@ Use for debugging slow emacs startup."
   (add-path "lisp/iedit") ;; EXPERIMENTAL!
   )
 
+(add-to-list 'custom-theme-load-path (concat user-emacs-directory "themes"))
+
 (require 'init-archive-messages)
 (require 'init-ui)
 (require 'init-autocomplete)

@@ -20,6 +20,9 @@
 (global-linum-mode)
 (global-set-key "\C-c\C-l" 'linum-mode)
 
+(require 'color-theme)
+(load-theme 'zenburn)
+
 ;; Enable "dangerous" commands I use
 (put 'erase-buffer 'disabled nil)
 (put 'narrow-to-region 'disabled nil)

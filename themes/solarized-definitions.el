@@ -1,0 +1,1 @@
+../lisp/emacs-color-theme-solarized/solarized-definitions.el
