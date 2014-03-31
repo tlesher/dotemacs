@@ -23,6 +23,16 @@
 (require 'color-theme)
 (load-theme 'zenburn)
 
+(require 'fill-column-indicator)
+(setq fci-rule-column 80)
+(setq fci-rule-color "#889988")
+(setq fci-rule-use-dashes 1)
+(setq fci-dash-pattern .2)
+(add-hook 'python-mode-hook 'turn-on-fci-mode)
+(add-hook 'borg-mode-hook 'turn-on-fci-mode)
+(add-hook 'cc-mode-hook 'turn-on-fci-mode)
+;; (add-hook 'font-lock-mode-hook 'turn-on-fci-mode)
+
 ;; Enable "dangerous" commands I use
 (put 'erase-buffer 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
