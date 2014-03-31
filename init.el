@@ -30,7 +30,6 @@ Use for debugging slow emacs startup."
 (require 'init-autocomplete)
 (require 'init-deft)
 (require 'init-fill)
-(require 'init-org)
 (require 'init-python)
 (require 'init-utils)
 (ignore-errors (require 'init-google))  ; don't crash when running
@@ -39,6 +38,7 @@ Use for debugging slow emacs startup."
 (require 'init-p4)
 (require 'init-flymake)
 (require 'init-windows)
+(require 'init-tkeys)
 
 ;;;; Miscellaneous settings.  Move these to init-* modules when they
 ;;;; grow large enough to stand on their own.
@@ -193,15 +193,6 @@ the point."
 
 (setq bookmark-default-file "~/.emacs.d/bookmarks")
 (setq bookmark-save-flag 1)
-
-(defun insert-todo (arg)
-  "Insert '// TODO(username): ' at point."
-  (interactive "*P")
-  (let ()
-    (comment-dwim arg)
-    (insert "TODO(" (user-login-name) "): \n")
-    (forward-char -1)))
-(global-set-key "\C-ct" 'insert-todo)
 
 
 ;; Neat hack from http://whattheemacsd.com/setup-shell.el-01.html:
