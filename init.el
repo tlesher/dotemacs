@@ -17,6 +17,7 @@ Use for debugging slow emacs startup."
 (labels
     ((add-path (p)
                (add-to-list 'load-path (concat user-emacs-directory p))))
+  (add-path "glisp")
   (add-path "lisp")
   (add-path "lisp/yasnippet")
   (add-path "init")
@@ -32,8 +33,9 @@ Use for debugging slow emacs startup."
 (require 'init-fill)
 (require 'init-python)
 (require 'init-utils)
-(ignore-errors (require 'init-google))  ; don't crash when running
-                                        ; outside teh gewgols.
+(with-demoted-errors
+  (require 'init-google)) ; don't crash when running outside teh
+                          ; gewgols.
 (require 'init-nav)
 (require 'init-p4)
 (require 'init-flymake)
@@ -54,7 +56,7 @@ Use for debugging slow emacs startup."
   (setq ac-source-yasnippet nil))
 
 ;; create the autosave dir if necessary, since emacs won't.
-;; Do this after loading custom.el. 
+;; Do this after loading custom.el.
 (make-directory "~/.emacs.d/tmp/autosaves/" t)
 
 ;;; Disambiguate buffers visiting files with the same name
