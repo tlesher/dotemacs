@@ -20,8 +20,8 @@
 (global-linum-mode)
 (global-set-key "\C-c\C-l" 'linum-mode)
 
-(require 'color-theme)
-(load-theme 'zenburn)
+;; (require 'color-theme)
+;; (load-theme 'zenburn)
 
 (require 'jiggle)
 (jiggle-mode 1)
@@ -43,7 +43,7 @@
 (put 'upcase-region 'disabled nil)
 (put 'set-goal-column 'disabled nil)
 
-# Use diminish mode to clean up modeline.
+;; Use diminish mode to clean up modeline.
 (require 'diminish)
 (eval-after-load "jiggle" '(diminish 'jiggle-mode))
 
