@@ -23,6 +23,10 @@
 (require 'color-theme)
 (load-theme 'zenburn)
 
+(require 'jiggle)
+(jiggle-mode 1)
+(jiggle-searches-too 1)
+
 (require 'fill-column-indicator)
 (setq fci-rule-column 80)
 (setq fci-rule-color "#889988")
