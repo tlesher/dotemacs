@@ -43,4 +43,8 @@
 (put 'upcase-region 'disabled nil)
 (put 'set-goal-column 'disabled nil)
 
+# Use diminish mode to clean up modeline.
+(require 'diminish)
+(eval-after-load "jiggle" '(diminish 'jiggle-mode))
+
 (provide 'init-ui)
