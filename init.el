@@ -50,10 +50,10 @@ Use for debugging slow emacs startup."
 (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 
 ;; Load yasnippet if it's available.
-(ignore-errors
-  (require 'yasnippet)
-  (yas-global-mode 1)
-  (setq ac-source-yasnippet nil))
+;; (ignore-errors
+;;   (require 'yasnippet)
+;;   (yas-global-mode 1)
+;;   (setq ac-source-yasnippet nil))
 
 ;; create the autosave dir if necessary, since emacs won't.
 ;; Do this after loading custom.el.
