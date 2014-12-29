@@ -142,6 +142,13 @@ Use for debugging slow emacs startup."
 (global-set-key "\C-cr" 'revert-buffer)
 (global-set-key "\C-x\C-l" 'sort-lines)
 
+(global-set-key (kbd "C-x g") 'browse-url-at-point)
+(global-set-key (kbd "M-j")
+            (lambda ()
+                  (interactive)
+                  (join-line -1)))
+(global-set-key (kbd "M-RET") 'comment-indent-new-line)
+
 (defun mn-just-one-space ()
   "When called for the first time Works just like `just-one-space'.
 When called second time deletes all spaces, tabs and new lines after
@@ -155,12 +162,12 @@ the point."
     (end-of-line)
     (delete-forward-char 1)
     (fixup-whitespace)))
-(global-set-key "\C-x\C-x" 'delete-newline-and-fixup-whitespace)
-
+(global-set-key "\C-x\C-x" 'tl-delete-newline-and-fixup-whitespace)
 (substitute-key-definition 'just-one-space 'mn-just-one-space
                            (current-global-map))
 (global-set-key "\C-x\C-z" 'mn-just-one-space)
-(global-set-key "\C-x\C-x" 'fixup-whitespace)
+;;(global-set-key "\C-x\C-x" 'fixup-whitespace)
+
 (global-set-key [M-down] 'next-error)
 (global-set-key [M-up] '(lambda () (interactive) (next-error -1)))
 ;; Just like M-down/M-up, but for nonwindowed Emacs
