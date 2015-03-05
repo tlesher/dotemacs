@@ -1,6 +1,9 @@
-;;; Emacs UI initialization
-;;; Loaded early to avoid annoying flicker
+;;; init-ui.el --- Emacs UI initialization
 
+;;; Commentary:
+;; Load this early to avoid annoying flicker.
+
+;;; Code:
 (menu-bar-mode 0)
 (ignore-errors ;; not present in emacs-nox
   (scroll-bar-mode 0)
@@ -12,6 +15,7 @@
 (setq transient-mark-mode t)
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq inhibit-startup-screen t)
+
 
 (require 'show-wspace)
 (add-hook 'font-lock-mode-hook 'ws-highlight-tabs)
@@ -48,3 +52,7 @@
 (eval-after-load "jiggle" '(diminish 'jiggle-mode))
 
 (provide 'init-ui)
+
+(provide 'init-ui)
+
+;;; init-ui.el ends here
