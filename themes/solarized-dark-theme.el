@@ -1,1 +1,0 @@
-../lisp/emacs-color-theme-solarized/solarized-dark-theme.el
