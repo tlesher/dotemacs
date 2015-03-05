@@ -24,8 +24,6 @@ Use for debugging slow emacs startup."
   (add-path "lisp/iedit") ;; EXPERIMENTAL!
   )
 
-(add-to-list 'custom-theme-load-path (concat user-emacs-directory "themes"))
-
 (require 'init-archive-messages)
 (require 'init-ui)
 (require 'init-autocomplete)
@@ -36,6 +34,7 @@ Use for debugging slow emacs startup."
 (with-demoted-errors
   (require 'init-google)) ; don't crash when running outside teh
                           ; gewgols.
+;; (require 'init-org)
 (require 'init-nav)
 (require 'init-p4)
 (require 'init-flymake)
@@ -53,7 +52,8 @@ Use for debugging slow emacs startup."
 ;; (ignore-errors
 ;;   (require 'yasnippet)
 ;;   (yas-global-mode 1)
-;;   (setq ac-source-yasnippet nil))
+;;   (setq ac-source-yasnippet nil)
+;;   (define-key yas-minor-mode-map (kbd "C-c C-z") 'yas-expand))
 
 ;; create the autosave dir if necessary, since emacs won't.
 ;; Do this after loading custom.el.
@@ -96,6 +96,15 @@ Use for debugging slow emacs startup."
 ;;   (lambda()
 ;;     (interactive)
 ;;     (ido-initiate-auto-merge (current-buffer))))
+
+;; Retrying ido mode based on http://www.masteringemacs.org/article/introduction-to-ido-mode.
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode 1)
+(setq ido-use-filename-at-point 'guess)
+(setq ido-file-extensions-order '(".org" ".txt" ".py" ".emacs" ".xml" ".el" ".ini" ".cfg" ".cnf"))
+
+
 
 ;; Ensure tmux passes through xterm keys.
 (defadvice terminal-init-screen
