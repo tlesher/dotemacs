@@ -49,7 +49,7 @@ Use for debugging slow emacs startup."
 (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 
 ;; Load yasnippet if it's available.
-;; (ignore-errors
+;; (with-demoted-errors
 ;;   (require 'yasnippet)
 ;;   (yas-global-mode 1)
 ;;   (setq ac-source-yasnippet nil)
@@ -130,6 +130,7 @@ Use for debugging slow emacs startup."
 (defalias 'qrr 'query-replace-regexp)
 (defalias 'fg 'grep-find)
 (defalias 'gf 'find-grep) ;; LOL
+(defalias 'ffow 'find-file-other-window)
 
 (setq make-backup-files nil)
 

@@ -5,7 +5,7 @@
 
 ;;; Code:
 (menu-bar-mode 0)
-(ignore-errors ;; not present in emacs-nox
+(with-demoted-errors ;; not present in emacs-nox
   (scroll-bar-mode 0)
   (tool-bar-mode 0))
 (line-number-mode t)
@@ -24,8 +24,7 @@
 (global-linum-mode)
 (global-set-key "\C-c\C-l" 'linum-mode)
 
-;; (require 'color-theme)
-;; (load-theme 'zenburn)
+(with-demoted-errors (load-theme 'solarized-dark))
 
 (require 'jiggle)
 (jiggle-mode 1)
