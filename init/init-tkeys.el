@@ -27,6 +27,7 @@ syntax for current buffer."
 (define-key tkey-map (kbd "f") 'show-file-name)
 (define-key tkey-map (kbd "F") 'copy-full-path-to-kill-ring)
 
+(global-set-key (kbd "C-c C-x C-c") 'delete-frame)
 
 
 

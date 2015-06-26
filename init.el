@@ -24,6 +24,16 @@ Use for debugging slow emacs startup."
   (add-path "lisp/iedit") ;; EXPERIMENTAL!
   )
 
+;; What has it gots in its packages?
+(when (boundp 'package-archives)
+  (add-to-list 'package-archives
+               '("elpa" . "http://tromey.com/elpa/"))
+  (add-to-list 'package-archives
+               '("marmalade" . "http://marmalade-repo.org/packages/"))
+  (add-to-list 'package-archives
+               '("GELPA" . "http://internal-elpa.appspot.com/packages/")))
+
+
 (require 'init-archive-messages)
 (require 'init-ui)
 (require 'init-autocomplete)
@@ -31,9 +41,8 @@ Use for debugging slow emacs startup."
 (require 'init-fill)
 (require 'init-python)
 (require 'init-utils)
-(with-demoted-errors
-  (require 'init-google)) ; don't crash when running outside teh
-                          ; gewgols.
+;; don't crash when running outside teh gewgols.
+(when (file-exists-p "/usr/local/google") (require 'init-google))
 ;; (require 'init-org)
 (require 'init-nav)
 (require 'init-p4)
@@ -213,15 +222,6 @@ the point."
   (setq browse-url-generic-program (executable-find "google-chrome")
         browse-url-browser-function 'browse-url-generic))
 
-;; What has it gots in its packages?
-(when (boundp 'package-archives)
-  (add-to-list 'package-archives
-               '("elpa" . "http://tromey.com/elpa/"))
-  (add-to-list 'package-archives
-               '("marmalade" . "http://marmalade-repo.org/packages/"))
-  (add-to-list 'package-archives
-               '("GELPA" . "http://internal-elpa.appspot.com/packages/")))
-
 (setq bookmark-default-file "~/.emacs.d/bookmarks")
 (setq bookmark-save-flag 1)
 
@@ -250,6 +250,7 @@ the point."
 (keyfreq-autosave-mode 1)
 
 ;; EXPERIMENTS MAY BITE
+
 ;; (require 'iedit)
 ;; (defun iedit-dwim (arg)
 ;;   "Starts iedit but uses \\[narrow-to-defun] to limit its scope."
@@ -267,6 +268,8 @@ the point."
 ;;           (narrow-to-defun)
 ;;           (iedit-start (current-word) (point-min) (point-max)))))))
 ;; (global-set-key (kbd "C-;") 'iedit-dwim)
+
 ;; END EXPERIMENTS
+
 
 (message ".emacs loaded in %.2fs" (- (float-time) *emacs-load-start*))

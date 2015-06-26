@@ -26,6 +26,12 @@
 
 (with-demoted-errors (load-theme 'solarized-dark))
 
+;; Why, yes, I know what a scratch buffer is.
+(setq initial-scratch-message "")
+(setq inhibit-startup-message t)
+(setq inhibit-startup-echo-area-message "tlesher")
+
+;; Jiggle the cursor after switching buffers, for better visibility.
 (require 'jiggle)
 (jiggle-mode 1)
 (jiggle-searches-too 1)
@@ -33,8 +39,8 @@
 (require 'fill-column-indicator)
 (setq fci-rule-column 80)
 (setq fci-rule-color "#889988")
-(setq fci-rule-use-dashes 1)
-(setq fci-dash-pattern .2)
+(setq fci-rule-use-dashes t)
+(setq fci-dash-pattern .8)
 (add-hook 'python-mode-hook 'turn-on-fci-mode)
 (add-hook 'borg-mode-hook 'turn-on-fci-mode)
 (add-hook 'cc-mode-hook 'turn-on-fci-mode)
@@ -49,8 +55,6 @@
 ;; Use diminish mode to clean up modeline.
 (require 'diminish)
 (eval-after-load "jiggle" '(diminish 'jiggle-mode))
-
-(provide 'init-ui)
 
 (provide 'init-ui)
 
