@@ -1,1 +1,1 @@
-/usr/local/google/home/tlesher/gdotfiles/init/init-google.el
+/usr/local/google/home/tlesher/gdotemacs/init/init-google.el
