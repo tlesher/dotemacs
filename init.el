@@ -37,7 +37,6 @@ Use for debugging slow emacs startup."
 (require 'init-archive-messages)
 (require 'init-ui)
 (require 'init-autocomplete)
-(require 'init-deft)
 (require 'init-fill)
 (require 'init-python)
 (require 'init-utils)
