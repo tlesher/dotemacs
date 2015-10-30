@@ -1,8 +1,6 @@
-;;;; Defines useful bindings to hang off "C-c C-c".
+;;;; Defines useful bindings to hang off "C-c c".
 
-(define-prefix-command 'tkey-map)
-(global-set-key (kbd "C-c C-c") 'tkey-map)
-
+;;; Utility functions
 (defun insert-todo (arg)
   "Insert 'TODO(username): ' at point, using correct commenting
 syntax for current buffer."
@@ -11,8 +9,6 @@ syntax for current buffer."
     (comment-dwim arg)
     (insert "TODO(" (user-login-name) "): \n")
     (forward-char -1)))
-(define-key tkey-map (kbd "t") 'insert-todo)
-
 
 ;; From http://stackoverflow.com/questions/3669511/the-function-to-show-current-files-full-path-in-mini-buffer
 (defun show-file-name ()
@@ -24,11 +20,17 @@ syntax for current buffer."
   (interactive)
   (when buffer-file-name
     (kill-new (file-truename buffer-file-name))))
+
+;;; Tim's key bindings (tkeys).
+(define-prefix-command 'tkey-map)
 (define-key tkey-map (kbd "f") 'show-file-name)
 (define-key tkey-map (kbd "F") 'copy-full-path-to-kill-ring)
+(define-key tkey-map (kbd "k") 'delete-region)
+(define-key tkey-map (kbd "t") 'insert-todo)
+(global-set-key (kbd "C-c c") 'tkey-map)
 
+;; Random non-tkey keys that shouldn't be here.
 (global-set-key (kbd "C-c C-x C-c") 'delete-frame)
-
 
 
 (provide 'init-tkeys)
