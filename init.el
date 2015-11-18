@@ -31,8 +31,13 @@ Use for debugging slow emacs startup."
   (add-to-list 'package-archives
                '("marmalade" . "http://marmalade-repo.org/packages/"))
   (add-to-list 'package-archives
-               '("GELPA" . "http://internal-elpa.appspot.com/packages/")))
-
+               '("GELPA" . "http://internal-elpa.appspot.com/packages/"))
+  (add-to-list 'package-archives
+               '("melpa" . "https://melpa.org/packages/"))
+  (when (< emacs-major-version 24)
+    ;; For important compatibility libraries like cl-lib
+    (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))))
+(package-initialize)
 
 (require 'init-archive-messages)
 (require 'init-ui)

@@ -52,6 +52,10 @@
 (put 'upcase-region 'disabled nil)
 (put 'set-goal-column 'disabled nil)
 
+;; Don't go full ugly when using a theme.
+(autoload 'color-theme-approximate-on "color-theme-approximate")
+(color-theme-approximate-on)
+
 ;; Use diminish mode to clean up modeline.
 (require 'diminish)
 (eval-after-load "jiggle" '(diminish 'jiggle-mode))
