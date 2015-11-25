@@ -60,6 +60,19 @@
 (require 'diminish)
 (eval-after-load "jiggle" '(diminish 'jiggle-mode))
 
+;; Shamelessly stolen from Jonathan Rockway in g/emacs-users:
+;; https://groups.google.com/a/google.com/d/msg/emacs-users/09pEJXszcJQ/_x3UGHvlFAAJ
+
+;; We need C-x C-c bound to s-b-k-t for emacsclient -t sessions, but when
+;; it kills my main X session (with 9 windows or whatever), it is really
+;; annoying.
+(defadvice save-buffers-kill-terminal (around dont-kill-my-x-session-kthx)
+  "Disable C-x C-c under X."
+  (if (or (eq window-system 'x) (eq window-system 'w32))
+      (message "I'm afraid I can't do that, Dave.")
+    ad-do-it))
+(ad-activate 'save-buffers-kill-terminal)
+
 (provide 'init-ui)
 
 ;;; init-ui.el ends here
