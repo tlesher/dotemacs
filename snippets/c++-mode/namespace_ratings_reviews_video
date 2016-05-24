@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: namespace_ratings_reviews-video
+# key: nsrv
+# --
+namespace ratings_reviews {
+namespace video {
+
+$0
+
+}  // namespace video
+}  // namespace ratings_reviews

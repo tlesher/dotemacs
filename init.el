@@ -62,11 +62,14 @@ Use for debugging slow emacs startup."
 (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 
 ;; Load yasnippet if it's available.
-;; (with-demoted-errors
-;;   (require 'yasnippet)
-;;   (yas-global-mode 1)
-;;   (setq ac-source-yasnippet nil)
-;;   (define-key yas-minor-mode-map (kbd "C-c C-z") 'yas-expand))
+(with-demoted-errors
+    (require 'yasnippet)
+  (setq yas-snippet-dirs
+        '("~/.emacs.d/snippets"
+          "~/src/yasnippet-snippets"))
+  (yas-global-mode 1)
+  (setq ac-source-yasnippet nil)
+  (define-key yas-minor-mode-map (kbd "C-c C-z") 'yas-expand))
 
 ;; create the autosave dir if necessary, since emacs won't.
 ;; Do this after loading custom.el.
@@ -153,6 +156,7 @@ Use for debugging slow emacs startup."
 ;; init.el, for example.
 (set-register ?e '(file . "~/.emacs.d/init.el"))
 (set-register ?a '(file . "~/.config/awesome/rc.lua"))
+(set-register ?g '(file . "~/.emacs.d/init/init-google.el"))
 
 ;; No tabs.
 (setq-default indent-tabs-mode nil)
@@ -272,6 +276,52 @@ the point."
 ;;           (narrow-to-defun)
 ;;           (iedit-start (current-word) (point-min) (point-max)))))))
 ;; (global-set-key (kbd "C-;") 'iedit-dwim)
+
+(add-hook
+ 'c++-mode-hook
+ '(lambda()
+    ;; We could place some regexes into `c-mode-common-hook', but note that their evaluation order
+    ;; matters.
+    (font-lock-add-keywords
+     nil '(;; complete some fundamental keywords
+           ("\\<\\(void\\|unsigned\\|signed\\|char\\|short\\|bool\\|int\\|long\\|float\\|double\\)\\>" . font-lock-keyword-face)
+           ;; namespace names and tags - these are rendered as constants by cc-mode
+           ("\\<\\(\\w+::\\)" . font-lock-function-name-face)
+           ;;  new C++11 keywords
+           ("\\<\\(alignof\\|alignas\\|constexpr\\|decltype\\|noexcept\\|nullptr\\|static_assert\\|thread_local\\|override\\|final\\)\\>" . font-lock-keyword-face)
+           ("\\<\\(char16_t\\|char32_t\\)\\>" . font-lock-keyword-face)
+           ;; PREPROCESSOR_CONSTANT, PREPROCESSORCONSTANT
+           ("\\<[A-Z]*_[A-Z_]+\\>" . font-lock-constant-face)
+           ("\\<[A-Z]\\{3,\\}\\>"  . font-lock-constant-face)
+           ;; hexadecimal numbers
+           ("\\<0[xX][0-9A-Fa-f]+\\>" . font-lock-constant-face)
+           ;; integer/float/scientific numbers
+           ("\\<[\\-+]*[0-9]*\\.?[0-9]+\\([ulUL]+\\|[eE][\\-+]?[0-9]+\\)?\\>" . font-lock-constant-face)
+           ;; c++11 string literals
+           ;;       L"wide string"
+           ;;       L"wide string with UNICODE codepoint: \u2018"
+           ;;       u8"UTF-8 string", u"UTF-16 string", U"UTF-32 string"
+           ("\\<\\([LuU8]+\\)\".*?\"" 1 font-lock-keyword-face)
+           ;;       R"(user-defined literal)"
+           ;;       R"( a "quot'd" string )"
+           ;;       R"delimiter(The String Data" )delimiter"
+           ;;       R"delimiter((a-z))delimiter" is equivalent to "(a-z)"
+           ("\\(\\<[uU8]*R\"[^\\s-\\\\()]\\{0,16\\}(\\)" 1 font-lock-keyword-face t) ; start delimiter
+           (   "\\<[uU8]*R\"[^\\s-\\\\()]\\{0,16\\}(\\(.*?\\))[^\\s-\\\\()]\\{0,16\\}\"" 1 font-lock-string-face t)  ; actual string
+           (   "\\<[uU8]*R\"[^\\s-\\\\()]\\{0,16\\}(.*?\\()[^\\s-\\\\()]\\{0,16\\}\"\\)" 1 font-lock-keyword-face t) ; end delimiter
+
+           ;; user-defined types (rather project-specific)
+           ("\\<[A-Za-z_]+[A-Za-z_0-9]*_\\(type\\|ptr\\)\\>" . font-lock-type-face)
+           ("\\<\\(xstring\\|xchar\\)\\>" . font-lock-type-face)
+           ))
+    ) t)
+
+;; From http://trey-jackson.blogspot.com/2010/04/emacs-tip-36-abort-minibuffer-when.html
+(defun stop-using-minibuffer ()
+  "kill the minibuffer"
+  (when (and (>= (recursion-depth) 1) (active-minibuffer-window))
+    (abort-recursive-edit)))
+(add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
 
 ;; END EXPERIMENTS
 
