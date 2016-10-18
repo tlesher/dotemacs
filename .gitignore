@@ -8,3 +8,4 @@ eshell/
 #init/init-google.el
 tmp/
 messages-archive
+ido.last
