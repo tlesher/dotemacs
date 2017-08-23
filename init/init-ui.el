@@ -16,7 +16,8 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq inhibit-startup-screen t)
 
-
+;; show-wspace crashes emacs 25
+;; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=24206
 (require 'show-wspace)
 (add-hook 'font-lock-mode-hook 'ws-highlight-tabs)
 (add-hook 'font-lock-mode-hook 'ws-highlight-trailing-whitespace)
@@ -24,27 +25,27 @@
 (global-linum-mode)
 (global-set-key "\C-c\C-l" 'linum-mode)
 
-(with-demoted-errors (load-theme 'solarized-dark))
-
 ;; Why, yes, I know what a scratch buffer is.
 (setq initial-scratch-message "")
 (setq inhibit-startup-message t)
 (setq inhibit-startup-echo-area-message "tlesher")
 
 ;; Jiggle the cursor after switching buffers, for better visibility.
-(require 'jiggle)
-(jiggle-mode 1)
-(jiggle-searches-too 1)
+;; (require 'jiggle)
+;; (jiggle-mode 1)
+;; (jiggle-searches-too 1)
 
-(require 'fill-column-indicator)
-(setq fci-rule-column 80)
-(setq fci-rule-color "#889988")
-(setq fci-rule-use-dashes t)
-(setq fci-dash-pattern .8)
-(add-hook 'python-mode-hook 'turn-on-fci-mode)
-(add-hook 'borg-mode-hook 'turn-on-fci-mode)
-(add-hook 'cc-mode-hook 'turn-on-fci-mode)
-;; (add-hook 'font-lock-mode-hook 'turn-on-fci-mode)
+(use-package fill-column-indicator
+  :config
+  (setq fci-rule-column 80)
+  (setq fci-rule-color "#889988")
+  (setq fci-rule-use-dashes t)
+  (setq fci-dash-pattern .8)
+  (add-hook 'python-mode-hook 'turn-on-fci-mode)
+  (add-hook 'borg-mode-hook 'turn-on-fci-mode)
+  (add-hook 'cc-mode-hook 'turn-on-fci-mode)
+  (add-hook 'font-lock-mode-hook 'turn-on-fci-mode)
+  )
 
 ;; Enable "dangerous" commands I use
 (put 'erase-buffer 'disabled nil)
@@ -67,15 +68,15 @@
 ;; We need C-x C-c bound to s-b-k-t for emacsclient -t sessions, but when
 ;; it kills my main X session (with 9 windows or whatever), it is really
 ;; annoying.
-(defadvice save-buffers-kill-terminal (around dont-kill-my-x-session-kthx)
-  "Don't kill the emacs frame on C-x C-c."
-  (if (or (eq window-system 'x) (eq window-system 'w32))
-      (if (bound-and-true-p server-clients)
-          (apply 'server-switch-buffer (server-done))
-        (message
-         (format "I'm afraid I can't do that, %s." (user-login-name))))
-    ad-do-it))
-(ad-activate 'save-buffers-kill-terminal)
+;; (defadvice save-buffers-kill-terminal (around dont-kill-my-x-session-kthx)
+;;   "Don't kill the emacs frame on C-x C-c."
+;;   (if (or (eq window-system 'x) (eq window-system 'w32))
+;;       (if (bound-and-true-p server-clients)
+;;           (apply 'server-switch-buffer (server-done))
+;;         (message
+;;          (format "I'm afraid I can't do that, %s." (user-login-name))))
+;;     ad-do-it))
+;; (ad-activate 'save-buffers-kill-terminal)
 
 (provide 'init-ui)
 

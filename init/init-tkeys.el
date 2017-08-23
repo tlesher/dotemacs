@@ -30,7 +30,7 @@ syntax for current buffer."
 (global-set-key (kbd "C-c c") 'tkey-map)
 
 ;; Random non-tkey keys that shouldn't be here.
-(global-set-key (kbd "C-c C-x C-c") 'delete-frame)
+(global-set-key (kbd "C-c C-x C-c") 'save-buffers-kill-emacs)
 
 
 (provide 'init-tkeys)

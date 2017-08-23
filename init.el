@@ -19,7 +19,9 @@ Use for debugging slow emacs startup."
                (add-to-list 'load-path (concat user-emacs-directory p))))
   (add-path "glisp")
   (add-path "lisp")
+  (add-path "lisp/auto-complete")
   (add-path "lisp/yasnippet")
+  (add-path "lisp/use-package")
   (add-path "init")
   (add-path "lisp/iedit") ;; EXPERIMENTAL!
   )
@@ -31,13 +33,16 @@ Use for debugging slow emacs startup."
   (add-to-list 'package-archives
                '("marmalade" . "http://marmalade-repo.org/packages/"))
   (add-to-list 'package-archives
-               '("GELPA" . "http://internal-elpa.appspot.com/packages/"))
-  (add-to-list 'package-archives
                '("melpa" . "https://melpa.org/packages/"))
   (when (< emacs-major-version 24)
     ;; For important compatibility libraries like cl-lib
     (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))))
 (package-initialize)
+
+(eval-when-compile
+  (require 'use-package))
+(require 'diminish)                ;; if you use :diminish
+(require 'bind-key)                ;; if you use any :bind variant
 
 (require 'init-archive-messages)
 (require 'init-ui)
@@ -45,6 +50,7 @@ Use for debugging slow emacs startup."
 (require 'init-fill)
 (require 'init-python)
 (require 'init-utils)
+
 ;; don't crash when running outside teh gewgols.
 (when (file-exists-p "/usr/local/google") (require 'init-google))
 ;; (require 'init-org)
@@ -53,6 +59,8 @@ Use for debugging slow emacs startup."
 (require 'init-flymake)
 (require 'init-windows)
 (require 'init-tkeys)
+
+
 
 ;;;; Miscellaneous settings.  Move these to init-* modules when they
 ;;;; grow large enough to stand on their own.
@@ -187,7 +195,7 @@ the point."
   (interactive "*")
   (save-excursion
     (end-of-line)
-    (delete-forward-char 1)
+    (delete-char 1)
     (fixup-whitespace)))
 (global-set-key "\C-x\C-x" 'tl-delete-newline-and-fixup-whitespace)
 (substitute-key-definition 'just-one-space 'mn-just-one-space
@@ -247,7 +255,7 @@ the point."
               (kbd "C-d") 'comint-delchar-or-eof-or-kill-buffer)))
 
 ;; Abbrevs.
-(setq default-abbrev-mode t)
+(setq abbrev-mode t)
 (setq abbrev-file-name "~/.emacs.d/abbrev-defs" )
 (setq save-abbrevs t)
 (quietly-read-abbrev-file)
