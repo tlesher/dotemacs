@@ -17,7 +17,7 @@
  '(org-agenda-files (quote ("~/organizer.org")))
  '(package-selected-packages
    (quote
-    (0blayout ivy counsel swiper zenburn-theme material-theme iodine-theme flycheck elpy color-theme-approximate))))
+    (company 0blayout ivy counsel swiper zenburn-theme material-theme iodine-theme flycheck elpy color-theme-approximate))))
 
 ;; (custom-set-faces
 ;;  ;; custom-set-faces was added by Custom.
