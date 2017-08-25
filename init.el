@@ -28,14 +28,11 @@ Use for debugging slow emacs startup."
 ;; What has it gots in its packages?
 (when (boundp 'package-archives)
   (add-to-list 'package-archives
-               '("elpa" . "http://tromey.com/elpa/"))
+               '("elpa" . "http://elpa.gnu.orgt/packages/"))
   (add-to-list 'package-archives
                '("marmalade" . "http://marmalade-repo.org/packages/"))
   (add-to-list 'package-archives
-               '("melpa" . "https://melpa.org/packages/"))
-  (when (< emacs-major-version 24)
-    ;; For important compatibility libraries like cl-lib
-    (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))))
+               '("melpa" . "https://melpa.org/packages/")))
 (package-initialize)
 
 (eval-when-compile
@@ -43,15 +40,18 @@ Use for debugging slow emacs startup."
 (require 'diminish)                ;; if you use :diminish
 (require 'bind-key)                ;; if you use any :bind variant
 
+					; TODO(tlesher): look at auto-complete or company mode
+
 (require 'init-archive-messages)
 (require 'init-ui)
-(require 'init-autocomplete)
 (require 'init-fill)
 (require 'init-python)
 (require 'init-utils)
 
 ;; don't crash when running outside teh gewgols.
-(when (file-exists-p "/usr/local/google") (require 'init-google))
+(with-demoted-errors
+;;;;    (when (file-exists-p "/usr/local/google")
+      (require 'init-google))
 ;; (require 'init-org)
 (require 'init-nav)
 (require 'init-p4)
