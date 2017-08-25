@@ -19,7 +19,6 @@ Use for debugging slow emacs startup."
                (add-to-list 'load-path (concat user-emacs-directory p))))
   (add-path "glisp")
   (add-path "lisp")
-  (add-path "lisp/auto-complete")
   (add-path "lisp/yasnippet")
   (add-path "lisp/use-package")
   (add-path "init")
