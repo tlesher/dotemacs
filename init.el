@@ -4,8 +4,8 @@
 ;; Set to t to print time for each (require) in this file.
 (defvar *timed-require-enabled* nil)
 
-;; For future reference: emacs startup in graphics mode on tlesher.pit
-;; with init-google as of 2013-05-22 is 1.58-2.1s.
+;; For future reference: emacs startup in graphics mode on badwolf.pit
+;; with init-google as of 2017-08-25 is 1.28-1.38s.
 
 (defun mark-load-time (comment)
   "Print a message with the current elapsed load time.
