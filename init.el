@@ -1,6 +1,9 @@
 (require 'cl)
 (defvar *emacs-load-start* (float-time))
 
+;; Set to t to print time for each (require) in this file.
+(defvar *timed-require-enabled* nil)
+
 ;; For future reference: emacs startup in graphics mode on tlesher.pit
 ;; with init-google as of 2013-05-22 is 1.58-2.1s.
 
@@ -8,6 +11,13 @@
   "Print a message with the current elapsed load time.
 Use for debugging slow emacs startup."
   (message "%s: %.2fs" comment (- (float-time) *emacs-load-start*)))
+
+(defun timed-require (library)
+  "Print a message around a require showing load time."
+  (let ((start-time (float-time)))
+    (require library)
+    (when *timed-require-enabled*
+      (message "require %s: %.2fs (%.2fs)" (symbol-name library) (- (float-time) *emacs-load-start*) (- (float-time) start-time)))))
 
 ;; Load custom early.
 (setq custom-file (concat user-emacs-directory "custom.el"))
@@ -19,7 +29,6 @@ Use for debugging slow emacs startup."
                (add-to-list 'load-path (concat user-emacs-directory p))))
   (add-path "glisp")
   (add-path "lisp")
-  (add-path "lisp/yasnippet")
   (add-path "lisp/use-package")
   (add-path "init")
   (add-path "lisp/iedit") ;; EXPERIMENTAL!
@@ -36,30 +45,29 @@ Use for debugging slow emacs startup."
 (package-initialize)
 
 (eval-when-compile
-  (require 'use-package))
-(require 'diminish)                ;; if you use :diminish
-(require 'bind-key)                ;; if you use any :bind variant
+  (timed-require 'use-package))
+(timed-require 'diminish)                ;; if you use :diminish
+(timed-require 'bind-key)                ;; if you use any :bind variant
 
-					; TODO(tlesher): look at auto-complete or company mode
+;; TODO(tlesher): look at auto-complete or company mode
 
-(require 'init-archive-messages)
-(require 'init-ui)
-(require 'init-fill)
-(require 'init-python)
-(require 'init-utils)
+(timed-require 'init-archive-messages)
+;; (timed-require 'init-archive-messages)
+(timed-require 'init-ui)
+(timed-require 'init-fill)
+(timed-require 'init-flymake)
+(timed-require 'init-python)
+(timed-require 'init-utils)
 
 ;; don't crash when running outside teh gewgols.
 (with-demoted-errors
-;;;;    (when (file-exists-p "/usr/local/google")
-      (require 'init-google))
-;; (require 'init-org)
-(require 'init-nav)
-(require 'init-p4)
-(require 'init-flymake)
-(require 'init-windows)
-(require 'init-tkeys)
+    (timed-require 'init-google))
+(timed-require 'init-org)
 
-
+(timed-require 'init-nav)
+(timed-require 'init-p4)
+(timed-require 'init-windows)
+(timed-require 'init-tkeys)
 
 ;;;; Miscellaneous settings.  Move these to init-* modules when they
 ;;;; grow large enough to stand on their own.
@@ -68,28 +76,18 @@ Use for debugging slow emacs startup."
 (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
 (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 
-;; Load yasnippet if it's available.
-(with-demoted-errors
-    (require 'yasnippet)
-  (setq yas-snippet-dirs
-        '("~/.emacs.d/snippets"
-          "~/src/yasnippet-snippets"))
-  (yas-global-mode 1)
-  (setq ac-source-yasnippet nil)
-  (define-key yas-minor-mode-map (kbd "C-c C-z") 'yas-expand))
-
 ;; create the autosave dir if necessary, since emacs won't.
 ;; Do this after loading custom.el.
 (make-directory "~/.emacs.d/tmp/autosaves/" t)
 
 ;;; Disambiguate buffers visiting files with the same name
-(require 'uniquify)
+(timed-require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
 (add-to-list 'uniquify-list-buffers-directory-modes 'shell-mode)
 (add-to-list 'uniquify-list-buffers-directory-modes 'term-mode)
 (add-to-list 'uniquify-list-buffers-directory-modes 'compilation-mode)
 
-(require 'server)
+(timed-require 'server)
 ;; server-running-p returns ":other" on win32 if it's not sure,
 ;; so don't just check (unless (server-running-p))
 (unless (eq (server-running-p) 't) (server-start))
@@ -104,30 +102,12 @@ Use for debugging slow emacs startup."
 (global-set-key "\C-ch" 'hide-lines)
 (global-set-key "\C-c\C-h" 'show-all-invisible)
 
-;; Whack ido mode for now... it's misbehaving while homedir is offline.
-;; (defun ami-ido-yank ()
-;;   (interactive)
-;;   (insert-string
-;;    (ido-completing-read "Yank what? "
-;;                         (mapcar 'substring-no-properties kill-ring))))
-;; (global-set-key "\C-cy" 'ami-ido-yank)
-
-;; (ido-mode 1)
-;; ;; Disable auto searching for files unless called explicitly.
-;; ;;(setq ido-auto-merge-delay-time 99999)
-;; (define-key ido-file-dir-completion-map (kbd "C-c C-s")
-;;   (lambda()
-;;     (interactive)
-;;     (ido-initiate-auto-merge (current-buffer))))
-
 ;; Retrying ido mode based on http://www.masteringemacs.org/article/introduction-to-ido-mode.
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (ido-mode 1)
 (setq ido-use-filename-at-point 'guess)
 (setq ido-file-extensions-order '(".org" ".txt" ".py" ".emacs" ".xml" ".el" ".ini" ".cfg" ".cnf"))
-
-
 
 ;; Ensure tmux passes through xterm keys.
 (defadvice terminal-init-screen
@@ -218,7 +198,7 @@ the point."
 ;; use windmove to switch between buffers and buffer-move to throw
 ;; them around.
 (windmove-default-keybindings)
-(require 'buffer-move)
+(timed-require 'buffer-move)
 (global-set-key (kbd "<C-S-left>") 'buf-move-left)
 (global-set-key (kbd "<C-S-right>") 'buf-move-right)
 (global-set-key (kbd "<C-S-up>") 'buf-move-up)
@@ -260,13 +240,13 @@ the point."
 (quietly-read-abbrev-file)
 
 ;; Key frequency mode
-(require 'keyfreq)
+(timed-require 'keyfreq)
 (keyfreq-mode 1)
 (keyfreq-autosave-mode 1)
 
 ;; EXPERIMENTS MAY BITE
 
-;; (require 'iedit)
+;; (timed-require 'iedit)
 ;; (defun iedit-dwim (arg)
 ;;   "Starts iedit but uses \\[narrow-to-defun] to limit its scope."
 ;;   (interactive "P")

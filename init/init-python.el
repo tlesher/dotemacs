@@ -9,7 +9,8 @@
   )
 (add-hook 'python-mode-hook 'tdl-python-mode-setup)
 
-(when (load "flymake" t)
+;; (when (load "flymake" t)
+(with-eval-after-load "flymake"
   (progn
     (defun flymake-pyflakes-init ()
       (let* ((temp-file (flymake-init-create-temp-buffer-copy

@@ -7,7 +7,8 @@
 (menu-bar-mode 0)
 (with-demoted-errors ;; not present in emacs-nox
   (scroll-bar-mode 0)
-  (tool-bar-mode 0))
+  (tool-bar-mode 0)
+  )
 (line-number-mode t)
 (column-number-mode t)
 (show-paren-mode 1)
@@ -53,8 +54,8 @@
 (put 'upcase-region 'disabled nil)
 (put 'set-goal-column 'disabled nil)
 
-;; Don't go full ugly when using a theme.
-(autoload 'color-theme-approximate-on "color-theme-approximate")
+;; Don't go full ugly when using a theme on a low-fi terminal (like ssh).
+(require 'color-theme-approximate)
 (color-theme-approximate-on)
 
 ;; Use diminish mode to clean up modeline.
