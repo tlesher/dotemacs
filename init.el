@@ -52,11 +52,11 @@ Use for debugging slow emacs startup."
 ;; TODO(tlesher): look at auto-complete or company mode
 
 (timed-require 'init-archive-messages)
-;; (timed-require 'init-archive-messages)
 (timed-require 'init-ui)
 (timed-require 'init-fill)
 (timed-require 'init-flymake)
 (timed-require 'init-python)
+(timed-require 'init-rust)
 (timed-require 'init-utils)
 
 ;; don't crash when running outside teh gewgols.
@@ -309,6 +309,7 @@ the point."
   (when (and (>= (recursion-depth) 1) (active-minibuffer-window))
     (abort-recursive-edit)))
 (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
+
 
 ;; END EXPERIMENTS
 
