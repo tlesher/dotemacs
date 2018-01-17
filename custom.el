@@ -11,10 +11,10 @@
  '(flymake-gui-warnings-enabled nil)
  '(global-font-lock-mode t)
  '(inhibit-startup-echo-area-message "tlesher")
- '(org-agenda-files (quote ("~/organizer.org")))
+ '(org-agenda-files nil)
  '(package-selected-packages
    (quote
-    (racer cargo rust-mode company 0blayout ivy counsel swiper zenburn-theme material-theme iodine-theme flycheck elpy color-theme-approximate))))
+    (bash-completion helm helm-ebdb racer cargo rust-mode company 0blayout ivy counsel swiper zenburn-theme material-theme iodine-theme flycheck elpy color-theme-approximate))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
