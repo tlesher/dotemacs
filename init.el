@@ -35,13 +35,13 @@ Use for debugging slow emacs startup."
   )
 
 ;; What has it gots in its packages?
-(when (boundp 'package-archives)
-  (add-to-list 'package-archives
-               '("elpa" . "http://elpa.gnu.orgt/packages/"))
-  (add-to-list 'package-archives
-               '("marmalade" . "http://marmalade-repo.org/packages/"))
-  (add-to-list 'package-archives
-               '("melpa" . "https://melpa.org/packages/")))
+(require 'package)
+(add-to-list 'package-archives
+             '("elpa" . "http://elpa.gnu.org/packages/"))
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
 (eval-when-compile
@@ -68,6 +68,8 @@ Use for debugging slow emacs startup."
 (timed-require 'init-p4)
 (timed-require 'init-windows)
 (timed-require 'init-tkeys)
+
+(timed-require 'helm-config)
 
 ;;;; Miscellaneous settings.  Move these to init-* modules when they
 ;;;; grow large enough to stand on their own.
@@ -144,6 +146,7 @@ Use for debugging slow emacs startup."
 (set-register ?e '(file . "~/.emacs.d/init.el"))
 (set-register ?a '(file . "~/.config/awesome/rc.lua"))
 (set-register ?g '(file . "~/.emacs.d/init/init-google.el"))
+(set-register ?n '(file . "~/x/nthings.org"))
 
 ;; No tabs.
 (setq-default indent-tabs-mode nil)
