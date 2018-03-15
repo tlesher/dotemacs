@@ -6,6 +6,35 @@
 
 ;; For future reference: emacs startup in graphics mode on badwolf.pit
 ;; with init-google as of 2017-08-25 is 1.28-1.38s.
+;;
+;; TODO: wtf, init-google?
+;; with init-google as of 2018-01-17 is 2.77s
+;;
+;; require use-package: 0.20s (0.00s)
+;; require diminish: 0.20s (0.00s)
+;; require bind-key: 0.20s (0.00s)
+;; require init-archive-messages: 0.20s (0.00s)
+;; require init-ui: 0.23s (0.02s)
+;; require init-fill: 0.23s (0.00s)
+;; Loading flymake...
+;; Loading flymake...done
+;; require init-flymake: 0.26s (0.03s)
+;; require init-python: 0.26s (0.00s)
+;; require init-rust: 0.27s (0.01s)
+;; require init-utils: 0.27s (0.00s)
+;; require init-google: 2.70s (2.43s)
+;; require init-org: 2.71s (0.01s)
+;; require init-nav: 2.71s (0.01s)
+;; require init-p4: 2.72s (0.01s)
+;; require init-windows: 2.73s (0.01s)
+;; require init-tkeys: 2.73s (0.01s)
+;; require helm-config: 2.75s (0.01s)
+;; require uniquify: 2.75s (0.00s)
+;; require server: 2.75s (0.00s)
+;; require buffer-move: 2.76s (0.01s)
+;; require keyfreq: 2.77s (0.01s)
+;; .emacs loaded in 2.77s
+
 
 (defun mark-load-time (comment)
   "Print a message with the current elapsed load time.
