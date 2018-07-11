@@ -14,7 +14,7 @@
  '(org-agenda-files nil)
  '(package-selected-packages
    (quote
-    (quickrun bash-completion helm helm-ebdb racer cargo rust-mode company 0blayout ivy counsel swiper zenburn-theme material-theme iodine-theme flycheck elpy color-theme-approximate))))
+    (which-key use-package-ensure-system-package use-package-el-get quickrun bash-completion helm helm-ebdb racer cargo rust-mode company 0blayout ivy counsel swiper zenburn-theme material-theme iodine-theme flycheck elpy color-theme-approximate))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
