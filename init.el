@@ -1,3 +1,4 @@
+
 ;; Make startup faster by reducing the frequency of garbage
 ;; collection.  The default is 800 kilobytes.  Measured in bytes.
 (setq gc-cons-threshold (* 50 1000 1000))
@@ -12,13 +13,42 @@
                      gcs-done)))
 
 (require 'cl)
-(defvar *emacs-load-start* (float-time))
 
 ;; Set to t to print time for each (require) in this file.
 (defvar *timed-require-enabled* nil)
+(defvar *timed-require-depth* 0)
+(defvar *timed-require-max-depth* 2)
+
+;; 1000 is far too few when using timed-require
+(setq message-log-max 5000)
 
 ;; For future reference: emacs startup in graphics mode on badwolf.pit
 ;; with init-google as of 2017-08-25 is 1.28-1.38s.
+;;
+;; Getting worse: 2018-05-07, 3.07 and that's after monkeying with GC.
+;; require use-package: 0.32s (0.00s)
+;; require diminish: 0.32s (0.00s)
+;; require bind-key: 0.32s (0.00s)
+;; require init-archive-messages: 0.32s (0.00s)
+;; require init-ui: 0.57s (0.25s)
+;; require init-fill: 0.58s (0.00s)
+;; require init-flymake: 0.58s (0.00s)
+;; require init-python: 0.58s (0.00s)
+;; require init-rust: 0.58s (0.00s)
+;; require init-utils: 0.58s (0.00s)
+;; require init-google: 2.56s (1.98s)
+;; require init-org: 2.57s (0.01s)
+;; require init-nav: 2.59s (0.01s)
+;; require init-p4: 2.60s (0.01s)
+;; require init-windows: 2.61s (0.01s)
+;; require init-tkeys: 2.62s (0.01s)
+;; require helm-config: 2.63s (0.02s)
+;; require uniquify: 2.63s (0.00s)
+;; require server: 2.63s (0.00s)
+;; require buffer-move: 2.67s (0.01s)
+;; require keyfreq: 2.68s (0.01s)
+;; Emacs ready in 3.07 seconds with 8 garbage collections.
+
 ;;
 ;; TODO: wtf, init-google?
 ;; with init-google as of 2018-01-17 is 2.77s
@@ -49,17 +79,17 @@
 ;; .emacs loaded in 2.77s
 
 
-(defun mark-load-time (comment)
-  "Print a message with the current elapsed load time.
-Use for debugging slow emacs startup."
-  (message "%s: %.2fs" comment (- (float-time) *emacs-load-start*)))
-
-(defun timed-require (library)
-  "Print a message around a require showing load time."
+(defun timed-require (orig-fn &rest args)
   (let ((start-time (float-time)))
-    (require library)
-    (when *timed-require-enabled*
-      (message "require %s: %.2fs (%.2fs)" (symbol-name library) (- (float-time) *emacs-load-start*) (- (float-time) start-time)))))
+    (if (< *timed-require-depth* *timed-require-max-depth*)
+        (message "%s > require %s" (make-string *timed-require-depth* ?\s) args))
+    (incf *timed-require-depth*)
+    (let ((res (apply orig-fn args)))
+      (decf *timed-require-depth*)
+      (if (< *timed-require-depth* *timed-require-max-depth*)
+          (message "%s < require %s (%.2fs)"
+                   (make-string *timed-require-depth* ?\s)
+                   args (- (float-time) start-time))))))
 
 ;; Load custom early.
 (setq custom-file (concat user-emacs-directory "custom.el"))
@@ -76,6 +106,8 @@ Use for debugging slow emacs startup."
   (add-path "lisp/iedit") ;; EXPERIMENTAL!
   )
 
+(if *timed-require-enabled* (advice-add 'require :around #'timed-require))
+
 ;; What has it gots in its packages?
 (require 'package)
 (add-to-list 'package-archives
@@ -87,31 +119,31 @@ Use for debugging slow emacs startup."
 (package-initialize)
 
 (eval-when-compile
-  (timed-require 'use-package))
-(timed-require 'diminish)                ;; if you use :diminish
-(timed-require 'bind-key)                ;; if you use any :bind variant
+  (require 'use-package))
+(require 'diminish)                ;; if you use :diminish
+(require 'bind-key)                ;; if you use any :bind variant
 
 ;; TODO(tlesher): look at auto-complete or company mode
 
-(timed-require 'init-archive-messages)
-(timed-require 'init-ui)
-(timed-require 'init-fill)
-(timed-require 'init-flymake)
-(timed-require 'init-python)
-(timed-require 'init-rust)
-(timed-require 'init-utils)
+(require 'init-archive-messages)
+(require 'init-ui)
+(require 'init-fill)
+(require 'init-flymake)
+(require 'init-python)
+(require 'init-rust)
+(require 'init-utils)
 
 ;; don't crash when running outside teh gewgols.
 (with-demoted-errors
-    (timed-require 'init-google))
-(timed-require 'init-org)
+    (require 'init-google))
+(require 'init-org)
 
-(timed-require 'init-nav)
-(timed-require 'init-p4)
-(timed-require 'init-windows)
-(timed-require 'init-tkeys)
+(require 'init-nav)
+(require 'init-p4)
+(require 'init-windows)
+(require 'init-tkeys)
 
-(timed-require 'helm-config)
+(require 'helm-config)
 
 ;;;; Miscellaneous settings.  Move these to init-* modules when they
 ;;;; grow large enough to stand on their own.
@@ -125,13 +157,13 @@ Use for debugging slow emacs startup."
 (make-directory "~/.emacs.d/tmp/autosaves/" t)
 
 ;;; Disambiguate buffers visiting files with the same name
-(timed-require 'uniquify)
+(require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
 (add-to-list 'uniquify-list-buffers-directory-modes 'shell-mode)
 (add-to-list 'uniquify-list-buffers-directory-modes 'term-mode)
 (add-to-list 'uniquify-list-buffers-directory-modes 'compilation-mode)
 
-(timed-require 'server)
+(require 'server)
 ;; server-running-p returns ":other" on win32 if it's not sure,
 ;; so don't just check (unless (server-running-p))
 (unless (eq (server-running-p) 't) (server-start))
@@ -243,7 +275,7 @@ the point."
 ;; use windmove to switch between buffers and buffer-move to throw
 ;; them around.
 (windmove-default-keybindings)
-(timed-require 'buffer-move)
+(require 'buffer-move)
 (global-set-key (kbd "<C-S-left>") 'buf-move-left)
 (global-set-key (kbd "<C-S-right>") 'buf-move-right)
 (global-set-key (kbd "<C-S-up>") 'buf-move-up)
@@ -285,13 +317,13 @@ the point."
 (quietly-read-abbrev-file)
 
 ;; Key frequency mode
-(timed-require 'keyfreq)
+(require 'keyfreq)
 (keyfreq-mode 1)
 (keyfreq-autosave-mode 1)
 
 ;; EXPERIMENTS MAY BITE
 
-;; (timed-require 'iedit)
+;; (require 'iedit)
 ;; (defun iedit-dwim (arg)
 ;;   "Starts iedit but uses \\[narrow-to-defun] to limit its scope."
 ;;   (interactive "P")
@@ -355,9 +387,25 @@ the point."
     (abort-recursive-edit)))
 (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
 
-
+;; Opens file at line from emacsclient.
+;; From https://stackoverflow.com/a/23857738
+(defadvice server-visit-files (before parse-numbers-in-lines (files proc &optional nowait) activate)
+  "looks for filenames like file:line or file:line:position and reparses name in such manner that position in file"
+  (ad-set-arg 0
+              (mapcar (lambda (fn)
+                        (let ((name (car fn)))
+                          (if (string-match "^\\(.*?\\):\\([0-9]+\\)\\(?::\\([0-9]+\\)\\)?$" name)
+                              (cons
+                               (match-string 1 name)
+                               (cons (string-to-number (match-string 2 name))
+                                     (string-to-number (or (match-string 3 name) "")))
+                               )
+                            fn))) files))
+  )
 ;; END EXPERIMENTS
 
+
+(if *timed-require-enabled* (advice-remove 'require #'timed-require))
 
 ;; Make gc pauses faster by decreasing the threshold.
 (setq gc-cons-threshold (* 2 1000 1000))
