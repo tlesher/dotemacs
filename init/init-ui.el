@@ -17,8 +17,6 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq inhibit-startup-screen t)
 
-;; show-wspace crashes emacs 25
-;; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=24206
 (require 'show-wspace)
 (add-hook 'font-lock-mode-hook 'ws-highlight-tabs)
 (add-hook 'font-lock-mode-hook 'ws-highlight-trailing-whitespace)
