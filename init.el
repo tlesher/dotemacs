@@ -17,66 +17,42 @@
 ;; Set to t to print time for each (require) in this file.
 (defvar *timed-require-enabled* nil)
 (defvar *timed-require-depth* 0)
-(defvar *timed-require-max-depth* 2)
+(defvar *timed-require-max-depth* 1)
 
 ;; 1000 is far too few when using timed-require
 (setq message-log-max 5000)
 
-;; For future reference: emacs startup in graphics mode on badwolf.pit
-;; with init-google as of 2017-08-25 is 1.28-1.38s.
-;;
-;; Getting worse: 2018-05-07, 3.07 and that's after monkeying with GC.
-;; require use-package: 0.32s (0.00s)
-;; require diminish: 0.32s (0.00s)
-;; require bind-key: 0.32s (0.00s)
-;; require init-archive-messages: 0.32s (0.00s)
-;; require init-ui: 0.57s (0.25s)
-;; require init-fill: 0.58s (0.00s)
-;; require init-flymake: 0.58s (0.00s)
-;; require init-python: 0.58s (0.00s)
-;; require init-rust: 0.58s (0.00s)
-;; require init-utils: 0.58s (0.00s)
-;; require init-google: 2.56s (1.98s)
-;; require init-org: 2.57s (0.01s)
-;; require init-nav: 2.59s (0.01s)
-;; require init-p4: 2.60s (0.01s)
-;; require init-windows: 2.61s (0.01s)
-;; require init-tkeys: 2.62s (0.01s)
-;; require helm-config: 2.63s (0.02s)
-;; require uniquify: 2.63s (0.00s)
-;; require server: 2.63s (0.00s)
-;; require buffer-move: 2.67s (0.01s)
-;; require keyfreq: 2.68s (0.01s)
-;; Emacs ready in 3.07 seconds with 8 garbage collections.
+;; Reminder - if emacs starts getting slow to load the first time but fast
+;; thereafter, see if something is getting loaded from x20. :-P
 
-;;
-;; TODO: wtf, init-google?
-;; with init-google as of 2018-01-17 is 2.77s
-;;
-;; require use-package: 0.20s (0.00s)
-;; require diminish: 0.20s (0.00s)
-;; require bind-key: 0.20s (0.00s)
-;; require init-archive-messages: 0.20s (0.00s)
-;; require init-ui: 0.23s (0.02s)
-;; require init-fill: 0.23s (0.00s)
-;; Loading flymake...
-;; Loading flymake...done
-;; require init-flymake: 0.26s (0.03s)
-;; require init-python: 0.26s (0.00s)
-;; require init-rust: 0.27s (0.01s)
-;; require init-utils: 0.27s (0.00s)
-;; require init-google: 2.70s (2.43s)
-;; require init-org: 2.71s (0.01s)
-;; require init-nav: 2.71s (0.01s)
-;; require init-p4: 2.72s (0.01s)
-;; require init-windows: 2.73s (0.01s)
-;; require init-tkeys: 2.73s (0.01s)
-;; require helm-config: 2.75s (0.01s)
-;; require uniquify: 2.75s (0.00s)
-;; require server: 2.75s (0.00s)
-;; require buffer-move: 2.76s (0.01s)
-;; require keyfreq: 2.77s (0.01s)
-;; .emacs loaded in 2.77s
+;; For future reference: emacs startup in graphics mode on badwolf.pit
+;; with init-google as of 2018-08-12 is ~2.0 seconds.
+
+;; require (package) (0.04s)
+;; require (use-package) (0.00s)
+;; require (diminish) (0.00s)
+;; require (bind-key) (0.00s)
+;; require (init-archive-messages) (0.00s)
+;; require (init-ui) (0.26s)
+;; require (init-fill) (0.00s)
+;; require (init-flymake) (0.00s)
+;; require (init-python) (0.00s)
+;; require (init-rust) (0.00s)
+;; require (init-utils) (0.00s)
+;; require (init-google) (1.00s)
+;; require (init-org) (0.00s)
+;; require (init-nav) (0.00s)
+;; require (init-p4) (0.00s)
+;; require (init-windows) (0.00s)
+;; require (init-tkeys) (0.00s)
+;; require (helm-config) (0.00s)
+;; require (uniquify) (0.00s)
+;; require (server) (0.00s)
+;; require (buffer-move) (0.00s)
+;; require (keyfreq) (0.01s)
+;; require (bytecomp) (0.00s)
+
+
 
 
 (defun timed-require (orig-fn &rest args)
@@ -402,6 +378,7 @@ the point."
                                )
                             fn))) files))
   )
+
 ;; END EXPERIMENTS
 
 
