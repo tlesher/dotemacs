@@ -12,7 +12,7 @@
                               (time-subtract after-init-time before-init-time)))
                      gcs-done)))
 
-(require 'cl)
+(require 'cl-lib)
 
 ;; Set to t to print time for each (require) in this file.
 (defvar *timed-require-enabled* nil)
@@ -21,39 +21,6 @@
 
 ;; 1000 is far too few when using timed-require
 (setq message-log-max 5000)
-
-;; Reminder - if emacs starts getting slow to load the first time but fast
-;; thereafter, see if something is getting loaded from x20. :-P
-
-;; For future reference: emacs startup in graphics mode on badwolf.pit
-;; with init-google as of 2018-08-12 is ~2.0 seconds.
-
-;; require (package) (0.04s)
-;; require (use-package) (0.00s)
-;; require (diminish) (0.00s)
-;; require (bind-key) (0.00s)
-;; require (init-archive-messages) (0.00s)
-;; require (init-ui) (0.26s)
-;; require (init-fill) (0.00s)
-;; require (init-flymake) (0.00s)
-;; require (init-python) (0.00s)
-;; require (init-rust) (0.00s)
-;; require (init-utils) (0.00s)
-;; require (init-google) (1.00s)
-;; require (init-org) (0.00s)
-;; require (init-nav) (0.00s)
-;; require (init-p4) (0.00s)
-;; require (init-windows) (0.00s)
-;; require (init-tkeys) (0.00s)
-;; require (helm-config) (0.00s)
-;; require (uniquify) (0.00s)
-;; require (server) (0.00s)
-;; require (buffer-move) (0.00s)
-;; require (keyfreq) (0.01s)
-;; require (bytecomp) (0.00s)
-
-
-
 
 (defun timed-require (orig-fn &rest args)
   (let ((start-time (float-time)))
@@ -87,8 +54,6 @@
 (require 'package)
 (add-to-list 'package-archives
              '("elpa" . "http://elpa.gnu.org/packages/"))
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)

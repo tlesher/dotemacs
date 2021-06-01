@@ -1,17 +1,22 @@
 ;;; init-ui.el --- Emacs UI initialization
 
 ;;; Commentary:
-;; Load this early to avoid annoying flicker.
 
 ;;; Code:
-(menu-bar-mode 0)
-(with-demoted-errors ;; not present in emacs-nox
-  (scroll-bar-mode 0)
-  (tool-bar-mode 0)
+
+;; UI setup code moved to early-init.el under emacs 27+
+(when (< 27 emacs-major-version)
+  (menu-bar-mode 0)
+  (with-demoted-errors
+      ;; not present in emacs-nox
+      (scroll-bar-mode 0)
+      (tool-bar-mode 0)
+      )
+  (line-number-mode t)
+  (column-number-mode t)
+  (show-paren-mode 1)
   )
-(line-number-mode t)
-(column-number-mode t)
-(show-paren-mode 1)
+
 (setq visible-bell t)
 (setq transient-mark-mode t)
 (fset 'yes-or-no-p 'y-or-n-p)
