@@ -1,8 +1,14 @@
+;; Emacs startup optimization:
+;; Make startup faster by increasing the garbage collection threshold (thereby
+;; reducing the frequency of garbage collection), then reduce again to make gc pauses faster.
+;; The default gc threshold is 800 kilobytes.
+;; Last test:
+;; sb: Emacs ready in 1.69 seconds with 18 garbage collections.
 
-;; Make startup faster by reducing the frequency of garbage
-;; collection.  The default is 800 kilobytes.  Measured in bytes.
 (setq gc-cons-threshold (* 50 1000 1000))
+(add-hook 'emacs-startup-hook (lambda() (setq gc-cons-threshold (* 2 1000 1000))))
 
+;; Print startup time.
 ;; Use a hook so the message doesn't get clobbered by other messages.
 (add-hook 'emacs-startup-hook
           (lambda ()
@@ -12,27 +18,32 @@
                               (time-subtract after-init-time before-init-time)))
                      gcs-done)))
 
-(require 'cl-lib)
-
-;; Set to t to print time for each (require) in this file.
-(defvar *timed-require-enabled* nil)
-(defvar *timed-require-depth* 0)
-(defvar *timed-require-max-depth* 1)
-
-;; 1000 is far too few when using timed-require
-(setq message-log-max 5000)
-
+;; timed-require: Set to t to print time for each (require) in this file.
+(defvar timed-require-enabled nil "*Enables time-require mode.")
+(defvar timed-require-max-depth 5
+  "*The maximum depth to track nested require calls; if 1, just print summaries.")
+(defvar timed-require-depth 0)  ;; Current depth; do not edit.
 (defun timed-require (orig-fn &rest args)
   (let ((start-time (float-time)))
-    (if (< *timed-require-depth* *timed-require-max-depth*)
-        (message "%s > require %s" (make-string *timed-require-depth* ?\s) args))
-    (incf *timed-require-depth*)
+    (if (and (> timed-require-max-depth 1)
+             (< timed-require-depth timed-require-max-depth))
+        (message "%s > require %s" (make-string timed-require-depth ?\s) args))
+    (incf timed-require-depth)
     (let ((res (apply orig-fn args)))
-      (decf *timed-require-depth*)
-      (if (< *timed-require-depth* *timed-require-max-depth*)
-          (message "%s < require %s (%.2fs)"
-                   (make-string *timed-require-depth* ?\s)
+      (decf timed-require-depth)
+      (if (< timed-require-depth timed-require-max-depth)
+          (message "%srequire %s (%.4fs)"
+                   (concat
+                    (make-string timed-require-depth ?\s)
+                    (if (eq timed-require-max-depth 1) "" " < "))
                    args (- (float-time) start-time))))))
+(if timed-require-enabled
+    (progn
+      ;; 1000 is far too few when using timed-require
+      (setq message-log-max 5000)
+      (advice-add 'require :around #'timed-require)))
+
+(require 'cl-lib)
 
 ;; Load custom early.
 (setq custom-file (concat user-emacs-directory "custom.el"))
@@ -47,8 +58,6 @@
   (add-path "lisp/use-package")
   (add-path "init")
   )
-
-(if *timed-require-enabled* (advice-add 'require :around #'timed-require))
 
 ;; What has it gots in its packages?
 (require 'package)
@@ -79,7 +88,6 @@
 (require 'init-org)
 
 (require 'init-nav)
-(require 'init-p4)
 (require 'init-windows)
 (require 'init-tkeys)
 
@@ -328,7 +336,4 @@ the point."
 ;; END EXPERIMENTS
 
 
-(if *timed-require-enabled* (advice-remove 'require #'timed-require))
-
-;; Make gc pauses faster by decreasing the threshold.
-(setq gc-cons-threshold (* 2 1000 1000))
+(if timed-require-enabled (advice-remove 'require #'timed-require))
