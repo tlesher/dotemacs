@@ -19,37 +19,6 @@
                               (time-subtract after-init-time before-init-time)))
                      gcs-done)))
 
-;; timed-require: Set to t to print time for each (require) in this file.
-(defvar timed-require-enabled nil "*Enables time-require mode.")
-(defvar timed-require-max-depth 5
-  "*The maximum depth to track nested require calls; if 1, just print summaries.")
-(defvar timed-require-depth 0)  ;; Current depth; do not edit.
-(defun timed-require (orig-fn &rest args)
-  (let ((start-time (float-time)))
-    (if (and (> timed-require-max-depth 1)
-             (< timed-require-depth timed-require-max-depth))
-        (message "%s > require %s" (make-string timed-require-depth ?\s) args))
-    (incf timed-require-depth)
-    (let ((res (apply orig-fn args)))
-      (decf timed-require-depth)
-      (if (< timed-require-depth timed-require-max-depth)
-          (message "%srequire %s (%.4fs)"
-                   (concat
-                    (make-string timed-require-depth ?\s)
-                    (if (eq timed-require-max-depth 1) "" " < "))
-                   args (- (float-time) start-time))))))
-(if timed-require-enabled
-    (progn
-      ;; 1000 is far too few when using timed-require
-      (setq message-log-max 5000)
-      (advice-add 'require :around #'timed-require)))
-
-(require 'cl-lib)
-
-;; Load custom early.
-(setq custom-file (concat user-emacs-directory "custom.el"))
-(load custom-file 'noerror)
-
 ;; Extend load path to select .emacs.d subdirectories.
 (cl-labels
     ((add-path (p)
@@ -59,6 +28,17 @@
   (add-path "lisp/use-package")
   (add-path "init")
   )
+
+;; Uncomment to measure time for require statements. Keep this line before any
+;; other require calls
+;; (require 'timed-require)
+
+(require 'cl-lib)
+
+;; Load custom early.
+(setq custom-file (concat user-emacs-directory "custom.el"))
+(load custom-file 'noerror)
+
 
 ;; What has it gots in its packages?
 (require 'package)
@@ -83,12 +63,10 @@
 (require 'init-python)
 (require 'init-rust)
 (require 'init-utils)
-
 ;; don't crash when running outside teh gewgols.
 (with-demoted-errors
     (require 'init-google))
 (require 'init-org)
-
 (require 'init-nav)
 (require 'init-windows)
 (require 'init-tkeys)
@@ -337,4 +315,3 @@ the point."
 ;; END EXPERIMENTS
 
 
-(if timed-require-enabled (advice-remove 'require #'timed-require))
