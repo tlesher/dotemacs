@@ -50,7 +50,7 @@
 (load custom-file 'noerror)
 
 ;; Extend load path to select .emacs.d subdirectories.
-(labels
+(cl-labels
     ((add-path (p)
                (add-to-list 'load-path (concat user-emacs-directory p))))
   (add-path "glisp")
@@ -244,7 +244,6 @@ the point."
 
 (setq bookmark-default-file "~/.emacs.d/bookmarks")
 (setq bookmark-save-flag 1)
-
 
 ;; Neat hack from http://whattheemacsd.com/setup-shell.el-01.html:
 ;; In shell-mode, second press of C-d kills shell buffer.
