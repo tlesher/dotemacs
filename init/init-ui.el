@@ -5,7 +5,7 @@
 ;;; Code:
 
 ;; UI setup code moved to early-init.el under emacs 27+
-(when (< 27 emacs-major-version)
+(when (>= 28 emacs-major-version)
   (menu-bar-mode 0)
   (with-demoted-errors
       ;; not present in emacs-nox
@@ -58,8 +58,9 @@
 (put 'set-goal-column 'disabled nil)
 
 ;; Don't go full ugly when using a theme on a low-fi terminal (like ssh).
-(require 'color-theme-approximate)
-(color-theme-approximate-on)
+(use-package color-theme-approximate
+  :config
+  (color-theme-approximate-on))
 
 ;; Use diminish mode to clean up modeline.
 (require 'diminish)
