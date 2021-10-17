@@ -4,6 +4,7 @@
 ;; The default gc threshold is 800 kilobytes.
 ;; Last test:
 ;; sb: Emacs ready in 1.69 seconds with 18 garbage collections.
+;; calcifer: Emacs ready in 0.77 seconds with 8 garbage collections.
 
 (setq gc-cons-threshold (* 50 1000 1000))
 (add-hook 'emacs-startup-hook (lambda() (setq gc-cons-threshold (* 2 1000 1000))))
