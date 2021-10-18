@@ -135,7 +135,7 @@
 ;; on Outline Mode & remap outline-minor-mode-prefix to something less
 ;; carpally hostile (I use C-c C-k).  M-x imenu may also help.
 
-(eval-when-compile (require 'cl))
+(eval-when-compile (require 'cl-lib))
 
 ;;;;; ************************* USER OPTIONS ************************** ;;;;;
 
