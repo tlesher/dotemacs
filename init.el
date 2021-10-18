@@ -3,7 +3,7 @@
 ;; reducing the frequency of garbage collection), then reduce again to make gc pauses faster.
 ;; The default gc threshold is 800 kilobytes.
 ;; Last test:
-;; sb: Emacs ready in 1.69 seconds with 18 garbage collections.
+;; sb: Emacs ready in 2.07 seconds with 18 garbage collections.
 ;; calcifer: Emacs ready in 0.77 seconds with 8 garbage collections.
 
 (setq gc-cons-threshold (* 50 1000 1000))
@@ -25,9 +25,7 @@
                (add-to-list 'load-path (concat user-emacs-directory p))))
   (add-path "glisp")
   (add-path "lisp")
-  (add-path "lisp/use-package")
-  (add-path "init")
-  )
+  (add-path "init"))
 
 ;; Uncomment to measure time for require statements. Keep this line before any
 ;; other require calls
@@ -43,10 +41,14 @@
 ;; What has it gots in its packages?
 (require 'package)
 (add-to-list 'package-archives
-             '("elpa" . "http://elpa.gnu.org/packages/"))
-(add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
+;; TODO(tlesher): consider straight.el.
+
+;; We need at least use-package to continue initializing.
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
 (with-demoted-errors
     (eval-when-compile
@@ -61,11 +63,9 @@
 (require 'init-fill)
 (require 'init-flymake)
 (require 'init-python)
-(require 'init-rust)
 (require 'init-utils)
-;; don't crash when running outside teh gewgols.
-(with-demoted-errors
-    (require 'init-google))
+(if (not (require 'init-google nil t))
+    (message "init-google.el not found; skipping Google-specific configuration."))
 (require 'init-org)
 (require 'init-nav)
 (require 'init-windows)
