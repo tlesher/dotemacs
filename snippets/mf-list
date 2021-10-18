@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: mf-list
+# key: mf
+# --
+  list { name='$0' },

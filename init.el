@@ -73,6 +73,9 @@
 
 (require 'helm-config)
 
+;; Prefer newer .el to older .elc, if both exist.
+(setq load-prefer-newer t)
+
 ;;;; Miscellaneous settings.  Move these to init-* modules when they
 ;;;; grow large enough to stand on their own.
 
