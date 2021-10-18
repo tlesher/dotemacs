@@ -76,10 +76,6 @@
 ;;;; Miscellaneous settings.  Move these to init-* modules when they
 ;;;; grow large enough to stand on their own.
 
-(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
-(add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
-(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
-
 ;; create the autosave dir if necessary, since emacs won't.
 ;; Do this after loading custom.el.
 (make-directory "~/.emacs.d/tmp/autosaves/" t)
@@ -102,11 +98,6 @@
     (interactive)
     (server-force-delete)
     (server-start)))
-
-;;; Hide-lines
-(autoload 'hide-lines "hide-lines" "Hide lines based on a regexp" t)
-(global-set-key "\C-ch" 'hide-lines)
-(global-set-key "\C-c\C-h" 'show-all-invisible)
 
 ;; Retrying ido mode based on http://www.masteringemacs.org/article/introduction-to-ido-mode.
 (setq ido-enable-flex-matching t)

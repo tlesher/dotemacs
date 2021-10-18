@@ -26,6 +26,11 @@
 (add-hook 'font-lock-mode-hook 'ws-highlight-tabs)
 (add-hook 'font-lock-mode-hook 'ws-highlight-trailing-whitespace)
 
+(use-package hide-lines
+  :config
+  (global-set-key "\C-ch" 'hide-lines)
+  (global-set-key "\C-c\C-h" 'show-all-invisible))
+
 (global-linum-mode)
 (global-set-key "\C-c\C-l" 'linum-mode)
 
@@ -65,23 +70,6 @@
 (use-package color-theme-approximate
   :config
   (color-theme-approximate-on))
-
-;; Shamelessly stolen and slightly modified from Jonathan Rockway in
-;; g/emacs-users:
-;; https://groups.google.com/a/google.com/d/msg/emacs-users/09pEJXszcJQ/_x3UGHvlFAAJ
-;;
-;; We need C-x C-c bound to s-b-k-t for emacsclient -t sessions, but when
-;; it kills my main X session (with 9 windows or whatever), it is really
-;; annoying.
-;; (defadvice save-buffers-kill-terminal (around dont-kill-my-x-session-kthx)
-;;   "Don't kill the emacs frame on C-x C-c."
-;;   (if (or (eq window-system 'x) (eq window-system 'w32))
-;;       (if (bound-and-true-p server-clients)
-;;           (apply 'server-switch-buffer (server-done))
-;;         (message
-;;          (format "I'm afraid I can't do that, %s." (user-login-name))))
-;;     ad-do-it))
-;; (ad-activate 'save-buffers-kill-terminal)
 
 (provide 'init-ui)
 
