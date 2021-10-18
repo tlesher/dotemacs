@@ -25,14 +25,13 @@
 ;; Boston, MA 02110-1301, USA.
 
 ;;; Commentary:
-;; The only entry point is `describe-unbound-keys'; it prompts for the maximum
+;; The only entry point is `unbound-describe-keys'; it prompts for the maximum
 ;; complexity to allow, which should probably be at least 5 to find enough
 ;; keys to be worthwhile.  Lisp may call just `unbound-keys' to get a list of
 ;; key representations suitable for `define-key'.
 
 ;;; Code:
 
-(eval-when-compile (require 'cl))       ; for `dotimes', `push' (Emacs 21)
 
 (defcustom unbound-modifiers '(control meta shift)
   "Modifiers to consider when searching for unbound keys."
@@ -73,7 +72,7 @@ Currently KEY must be of the [(control shift ?s) ...] format."
                  ((and (>= key ?0) (<= key ?9)) 2)
                  ((memq key '(?\b ?\r ?\ )) 1)
                  ;; Unshifted punctuation (US keyboards)
-                 ((memq key '(?` ?- ?= ?\t ?[ ?] ?\\ ?\; ?' ?, ?. ?/)) 3)
+                 ((memq key '(?` ?- ?= ?\t ?\[ ?\] ?\\ ?\; ?' ?, ?. ?/)) 3)
                  ;; Other letters -- presume that one's keyboard has them if
                  ;; we're going to consider binding them.
                  ((let (case-fold-search)
@@ -129,7 +128,7 @@ Keys are sorted by their complexity; `key-complexity' determines it."
                     (t (push (cons total comp) unbound-keys))))))))))
 
 ;;;###autoload
-(defun describe-unbound-keys (max)
+(defun unbound-describe-keys (max)
   "Display a list of unbound keystrokes of complexity no greater than MAX.
 Keys are sorted by their complexity; `key-complexity' determines it."
   (interactive "nMaximum key complexity: ")
