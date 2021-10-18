@@ -85,21 +85,23 @@
 (make-directory "~/.emacs.d/tmp/autosaves/" t)
 
 ;;; Disambiguate buffers visiting files with the same name
-(require 'uniquify)
-(setq uniquify-buffer-name-style 'forward)
-(add-to-list 'uniquify-list-buffers-directory-modes 'shell-mode)
-(add-to-list 'uniquify-list-buffers-directory-modes 'term-mode)
-(add-to-list 'uniquify-list-buffers-directory-modes 'compilation-mode)
+(use-package uniquify
+  :config
+  (setq uniquify-buffer-name-style 'forward)
+  (add-to-list 'uniquify-list-buffers-directory-modes 'shell-mode)
+  (add-to-list 'uniquify-list-buffers-directory-modes 'term-mode)
+  (add-to-list 'uniquify-list-buffers-directory-modes 'compilation-mode))
 
-(require 'server)
-;; server-running-p returns ":other" on win32 if it's not sure,
-;; so don't just check (unless (server-running-p))
-(unless (eq (server-running-p) 't) (server-start))
-(defun server-start-dammit ()
-  "Kill any existing server and start a new one in this process."
-  (interactive)
-  (server-force-delete)
-  (server-start))
+(use-package server
+  :config
+  ;; server-running-p returns ":other" on win32 if it's not sure,
+  ;; so don't just check (unless (server-running-p))
+  (unless (eq (server-running-p) 't) (server-start))
+  (defun server-start-dammit ()
+    "Kill any existing server and start a new one in this process."
+    (interactive)
+    (server-force-delete)
+    (server-start)))
 
 ;;; Hide-lines
 (autoload 'hide-lines "hide-lines" "Hide lines based on a regexp" t)
@@ -203,18 +205,17 @@ the point."
 ;; use windmove to switch between buffers and buffer-move to throw
 ;; them around.
 (windmove-default-keybindings)
-(require 'buffer-move)
-(global-set-key (kbd "<C-S-left>") 'buf-move-left)
-(global-set-key (kbd "<C-S-right>") 'buf-move-right)
-(global-set-key (kbd "<C-S-up>") 'buf-move-up)
-(global-set-key (kbd "<C-S-down>") 'buf-move-down)
-;; This set of keys stinks on ice: ESC Ctrl-left, etc.
-(global-set-key (kbd "ESC M-[ d") 'buf-move-left)
-(global-set-key (kbd "ESC M-[ c") 'buf-move-right)
-(global-set-key (kbd "ESC M-[ a") 'buf-move-up)
-(global-set-key (kbd "ESC M-[ b") 'buf-move-down)
-;; (global-set-key (kbd "M-[ a") 'forward-paragraph)
-;; (global-set-key (kbd "M-[ b") 'back-
+(use-package buffer-move
+  :config
+  (global-set-key (kbd "<C-S-left>") 'buf-move-left)
+  (global-set-key (kbd "<C-S-right>") 'buf-move-right)
+  (global-set-key (kbd "<C-S-up>") 'buf-move-up)
+  (global-set-key (kbd "<C-S-down>") 'buf-move-down)
+  ;; This set of keys stinks on ice: ESC Ctrl-left, etc.
+  (global-set-key (kbd "ESC M-[ d") 'buf-move-left)
+  (global-set-key (kbd "ESC M-[ c") 'buf-move-right)
+  (global-set-key (kbd "ESC M-[ a") 'buf-move-up)
+  (global-set-key (kbd "ESC M-[ b") 'buf-move-down))
 
 ;; I don't always (browse-url-of-buffer), but when I do, I prefer to use
 ;; Chrome.
@@ -244,9 +245,10 @@ the point."
 (quietly-read-abbrev-file)
 
 ;; Key frequency mode
-(require 'keyfreq)
-(keyfreq-mode 1)
-(keyfreq-autosave-mode 1)
+(use-package keyfreq
+  :config
+  (keyfreq-mode 1)
+  (keyfreq-autosave-mode 1))
 
 ;; EXPERIMENTS MAY BITE
 
@@ -313,5 +315,3 @@ the point."
   )
 
 ;; END EXPERIMENTS
-
-

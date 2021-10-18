@@ -35,9 +35,13 @@
 (setq inhibit-startup-echo-area-message "tlesher")
 
 ;; Jiggle the cursor after switching buffers, for better visibility.
-;; (require 'jiggle)
-;; (jiggle-mode 1)
-;; (jiggle-searches-too 1)
+(use-package jiggle
+  :defines jiggle-mode
+  :commands jiggle-mode
+  :diminish
+  :config
+  (jiggle-mode 1)
+  (jiggle-searches-too 1))
 
 (use-package fill-column-indicator
   :config
@@ -61,10 +65,6 @@
 (use-package color-theme-approximate
   :config
   (color-theme-approximate-on))
-
-;; Use diminish mode to clean up modeline.
-(require 'diminish)
-(eval-after-load "jiggle" '(diminish 'jiggle-mode))
 
 ;; Shamelessly stolen and slightly modified from Jonathan Rockway in
 ;; g/emacs-users:
