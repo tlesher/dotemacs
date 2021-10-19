@@ -5,8 +5,7 @@
   (interactive)
   (let ((fill-column (point-max)))
     (fill-paragraph nil)))
-;; Handy key definition
-(define-key global-map "\M-Q" 'unfill-paragraph)
+(global-set-key (kbd "M-S-q") 'unfill-paragraph)
 
 (defun unfill-region (beg end)
   "Unfill the region, joining text paragraphs into a single
@@ -15,7 +14,6 @@
   (interactive "*r")
   (let ((fill-column (point-max)))
     (fill-region beg end)))
-;; Handy key definition
-(define-key global-map "\C-\M-Q" 'unfill-region)
+(global-set-key (kbd "C-M-S-q") 'unfill-region)
 
 (provide 'init-fill)

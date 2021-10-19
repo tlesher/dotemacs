@@ -13,21 +13,18 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq inhibit-startup-screen t)
 
+;; Not sure why, but using :hook here causes a recursive load error.
 (use-package highlight-chars
   :config
   (add-hook 'font-lock-mode-hook 'hc-highlight-trailing-whitespace)
   (add-hook 'font-lock-mode-hook 'hc-highlight-tabs))
 
 (use-package hide-lines
-  :config
-  (global-set-key "\C-ch" 'hide-lines)
-  (global-set-key "\C-c\C-h" 'hide-lines-show-all)
-  ;; TODO(tlesher): for some reason, hide-lines fails if used before
-  ;; hide-lines-show-all.
-  (hide-lines-show-all))
+  :bind (("C-c h" . hide-lines)
+         ("C-c C-h" . hide-lines-show-all)))
 
 (global-linum-mode)
-(global-set-key "\C-c\C-l" 'linum-mode)
+(global-set-key (kbd "C-c C-l") 'linum-mode)
 
 ;; Why, yes, I know what a scratch buffer is.
 (setq initial-scratch-message "")
@@ -49,11 +46,7 @@
   (setq fci-rule-color "#889988")
   (setq fci-rule-use-dashes t)
   (setq fci-dash-pattern .8)
-  (add-hook 'python-mode-hook 'turn-on-fci-mode)
-  (add-hook 'borg-mode-hook 'turn-on-fci-mode)
-  (add-hook 'cc-mode-hook 'turn-on-fci-mode)
-  (add-hook 'font-lock-mode-hook 'turn-on-fci-mode)
-  )
+  :hook ((python-mode borg-mode cc-mode font-lock-mode) . turn-on-fci-mode))
 
 ;; Enable "dangerous" commands I use
 (put 'erase-buffer 'disabled nil)
