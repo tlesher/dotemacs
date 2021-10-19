@@ -76,6 +76,10 @@
 ;; Prefer newer .el to older .elc, if both exist.
 (setq load-prefer-newer t)
 
+(use-package avy
+  :config (avy-setup-default)
+  :bind ("M-." . avy-resume))
+
 ;;;; Miscellaneous settings.  Move these to init-* modules when they
 ;;;; grow large enough to stand on their own.
 
@@ -91,6 +95,8 @@
   (add-to-list 'uniquify-list-buffers-directory-modes 'term-mode)
   (add-to-list 'uniquify-list-buffers-directory-modes 'compilation-mode))
 
+(use-package projectile
+  :bind-keymap ("C-c p" . projectile-command-map))
 (use-package server
   :config
   ;; server-running-p returns ":other" on win32 if it's not sure,
