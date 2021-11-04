@@ -226,6 +226,10 @@ the point."
 (setq bookmark-default-file "~/.emacs.d/bookmarks")
 (setq bookmark-save-flag 1)
 
+;; golang stuff
+(add-to-list 'exec-path "/usr/local/go/bin")
+(add-hook 'go-mode-hook 'lsp-deferred)
+
 ;; Neat hack from http://whattheemacsd.com/setup-shell.el-01.html:
 ;; In shell-mode, second press of C-d kills shell buffer.
 (defun comint-delchar-or-eof-or-kill-buffer (arg)
