@@ -20,6 +20,8 @@
                      gcs-done)))
 
 ;; Extend load path to select .emacs.d subdirectories.
+(require 'cl-lib)
+
 (cl-labels
     ((add-path (p)
                (add-to-list 'load-path (concat user-emacs-directory p))))
@@ -30,8 +32,6 @@
 ;; Uncomment to measure time for require statements. Keep this line before any
 ;; other require calls
 ;; (require 'timed-require)
-
-(require 'cl-lib)
 
 ;; Load custom early.
 (setq custom-file (concat user-emacs-directory "custom.el"))
