@@ -48,14 +48,17 @@
 ;; We need at least use-package to continue initializing.
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
-  (package-install 'use-package))
+  (package-install 'use-package)
+  )
 
-(with-demoted-errors
-    (eval-when-compile
-      (require 'use-package))
-(require 'diminish)                ;; if you use :diminish
-(require 'bind-key)                ;; if you use any :bind variant
-)
+(require 'use-package)
+
+;; Force installation of packages used in use-package declarations.
+(use-package diminish :ensure)
+(use-package bind-key :ensure)
+
+
+
 ;; TODO(tlesher): look at auto-complete or company mode
 
 (require 'init-archive-messages)
@@ -71,21 +74,17 @@
 (require 'init-windows)
 (require 'init-tkeys)
 
-(require 'helm-config)
+;;(require 'helm-config)
 
 ;; Prefer newer .el to older .elc, if both exist.
 (setq load-prefer-newer t)
-
-(use-package avy
-  :config (avy-setup-default)
-  :bind ("M-." . avy-resume))
 
 ;;;; Miscellaneous settings.  Move these to init-* modules when they
 ;;;; grow large enough to stand on their own.
 
 ;; create the autosave dir if necessary, since emacs won't.
 ;; Do this after loading custom.el.
-(make-directory "~/.emacs.d/tmp/autosaves/" t)
+(make-directory (concat user-emacs-directory "tmp/autosaves/") t)
 
 ;;; Disambiguate buffers visiting files with the same name
 (use-package uniquify
@@ -96,6 +95,7 @@
   (add-to-list 'uniquify-list-buffers-directory-modes 'compilation-mode))
 
 (use-package projectile
+  :ensure
   :bind-keymap ("C-c p" . projectile-command-map))
 (use-package server
   :config
@@ -147,10 +147,9 @@
 
 ;; Add commonly-used files in registers, so I can C-x r j e to get to
 ;; init.el, for example.
-(set-register ?e '(file . "~/.emacs.d/init.el"))
-(set-register ?a '(file . "~/.config/awesome/rc.lua"))
-(set-register ?g '(file . "~/.emacs.d/init/init-google.el"))
-(set-register ?n '(file . "~/x/nthings.org"))
+(set-register ?e `(file . ,(concat user-emacs-directory "init.el")))
+(set-register ?g `(file . ,(concat
+			    user-emacs-directory "init/init-google.el")))
 
 ;; No tabs.
 (setq-default indent-tabs-mode nil)
@@ -206,6 +205,7 @@ the point."
 ;; them around.
 (windmove-default-keybindings)
 (use-package buffer-move
+  :ensure
   :config
   (global-set-key (kbd "<C-S-left>") 'buf-move-left)
   (global-set-key (kbd "<C-S-right>") 'buf-move-right)
@@ -223,7 +223,7 @@ the point."
   (setq browse-url-generic-program (executable-find "google-chrome")
         browse-url-browser-function 'browse-url-generic))
 
-(setq bookmark-default-file "~/.emacs.d/bookmarks")
+(setq bookmark-default-file (concat user-emacs-directory "bookmarks"))
 (setq bookmark-save-flag 1)
 
 ;; golang stuff
@@ -244,7 +244,7 @@ the point."
 
 ;; Abbrevs.
 (setq abbrev-mode t)
-(setq abbrev-file-name "~/.emacs.d/abbrev-defs" )
+(setq abbrev-file-name (concat user-emacs-directory "abbrev-defs" ))
 (setq save-abbrevs t)
 (quietly-read-abbrev-file)
 

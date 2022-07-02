@@ -3,8 +3,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(auto-save-file-name-transforms '((".*" "~/.emacs.d/tmp/autosaves/\\1" t)))
- '(backup-directory-alist '((".*" . "~/.emacs.d/tmp/backups/")))
+ '(auto-save-file-name-transforms `((".*" ,(concat user-emacs-directory "tmp/autosaves/\\1") t)))
+ '(backup-directory-alist `((".*" . ,(concat user-emacs-directory "tmp/backups/"))))
  '(compilation-error-regexp-alist
    '(google3-build-log-parser-info google3-build-log-parser-warning google3-build-log-parser-error google3-build-log-parser-python-traceback google-blaze-error google-blaze-warning google-log-error google-log-warning google-log-info google-log-fatal-message google-forge-python gunit-stack-trace absoft ada aix ant bash borland python-tracebacks-and-caml cmake cmake-info comma cucumber msft edg-1 edg-2 epc ftnchek gradle-kotlin iar ibm irix java jikes-file maven jikes-line clang-include clang-include gcc-include ruby-Test::Unit gmake gnu lcc makepp mips-1 mips-2 omake oracle perl php rxp sparc-pascal-file sparc-pascal-line sparc-pascal-example sun sun-ada watcom 4bsd gcov-file gcov-header gcov-nomark gcov-called-line gcov-never-called perl--Pod::Checker perl--Test perl--Test2 perl--Test::Harness weblint guile-file guile-line))
  '(custom-safe-themes
@@ -14,7 +14,7 @@
  '(inhibit-startup-echo-area-message "tlesher")
  '(org-agenda-files nil)
  '(package-selected-packages
-   '(lsp-mode auto-complete exec-path-from-shell go-mode projectile avy magit python-mode fill-column-indicator deft buffer-move highlight-symbol hide-lines fuzzy flymake-cursor diminish which-key use-package-ensure-system-package use-package-el-get quickrun bash-completion helm helm-ebdb racer cargo rust-mode company 0blayout ivy counsel swiper zenburn-theme material-theme iodine-theme flycheck elpy color-theme-approximate)))
+   '(highlight-chars lsp-mode auto-complete exec-path-from-shell go-mode projectile avy magit python-mode fill-column-indicator deft buffer-move highlight-symbol hide-lines fuzzy flymake-cursor diminish which-key use-package-ensure-system-package use-package-el-get quickrun bash-completion helm helm-ebdb racer cargo rust-mode company 0blayout ivy counsel swiper zenburn-theme material-theme iodine-theme flycheck elpy color-theme-approximate)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

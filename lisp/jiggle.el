@@ -448,7 +448,7 @@ Deliberately ignores minibuffer since that has its own hooks.")
   "Non-nil turns on jiggling of cursor every time buffer is switched.")
 
 (or (assq 'jiggle-mode minor-mode-alist)
-    (callf2 cons '(jiggle-mode " Jiggle") minor-mode-alist))
+    (cl-callf2 cons '(jiggle-mode " Jiggle") minor-mode-alist))
 
 ;;;###autoload
 (defun jiggle-mode (arg)

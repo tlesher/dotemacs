@@ -41,6 +41,7 @@
   (jiggle-searches-too 1))
 
 (use-package fill-column-indicator
+  :ensure
   :config
   (setq fci-rule-column 80)
   (setq fci-rule-color "#889988")
@@ -56,6 +57,7 @@
 
 ;; Don't go full ugly when using a theme on a low-fi terminal (like ssh).
 (use-package color-theme-approximate
+  :ensure
   :config
   (color-theme-approximate-on))
 
