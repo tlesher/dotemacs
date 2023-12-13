@@ -13,18 +13,25 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq inhibit-startup-screen t)
 
-;; Not sure why, but using :hook here causes a recursive load error.
-(use-package highlight-chars
-  :config
-  (add-hook 'font-lock-mode-hook 'hc-highlight-trailing-whitespace)
-  (add-hook 'font-lock-mode-hook 'hc-highlight-tabs))
+;; ;; Not sure why, but using :hook here causes a recursive load error.
+;; (use-package highlight-chars
+;;   :config
+;;   (add-hook 'font-lock-mode-hook 'hc-highlight-trailing-whitespace)
+;;   (add-hook 'font-lock-mode-hook 'hc-highlight-tabs))
 
 (use-package hide-lines
   :bind (("C-c h" . hide-lines)
          ("C-c C-h" . hide-lines-show-all)))
 
-(global-linum-mode)
-(global-set-key (kbd "C-c C-l") 'linum-mode)
+(if
+    (version< emacs-version "29.1")
+    (progn
+      (global-linum-mode)
+      (global-set-key (kbd "C-c C-l") 'linum-mode))
+  (progn
+    (global-display-line-numbers-mode))
+  (global-set-key (kbd "C-c C-l") 'display-line-numbers-mode))
+
 
 ;; Why, yes, I know what a scratch buffer is.
 (setq initial-scratch-message "")
@@ -60,6 +67,28 @@
   :ensure
   :config
   (color-theme-approximate-on))
+
+(defun disable-all-themes ()
+  "Disable all active themes."
+  (interactive)
+  (dolist (i custom-enabled-themes)
+    (disable-theme i)))
+
+(load-theme 'tango-dark)
+
+;; TODO: figure out why this doesn't work.
+;; interactive command is stolen from load-theme.
+;; (defun load-theme-only (new-theme)
+;;   "disable all themes, then load only the new theme."
+;;   (interactive
+;;    (list
+;;     (intern (completing-read "Load custom theme: "
+;;                              (mapcar #'symbol-name
+;; 				     (custom-available-themes))))
+;;     nil nil))
+;;   (disable-all-themes)
+;;   (load-theme new-theme)
+;;   )
 
 (provide 'init-ui)
 
