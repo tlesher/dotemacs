@@ -56,8 +56,7 @@
 ;; Force installation of packages used in use-package declarations.
 (use-package diminish :ensure)
 (use-package bind-key :ensure)
-
-
+(use-package vterm :ensure)
 
 ;; TODO(tlesher): look at auto-complete or company mode
 
