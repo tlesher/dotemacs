@@ -4,7 +4,7 @@
 
 ;;; Code:
 
-;; UI setup code moved to early-init.el under emacs 27+
+;; UI setup code moved to early-init.el under emacs 28+
 (when (>= 28 emacs-major-version)
   (load-file (concat user-emacs-directory "/init/early-init-ui.el")))
 
@@ -37,6 +37,19 @@
 (setq initial-scratch-message "")
 (setq inhibit-startup-message t)
 (setq inhibit-startup-echo-area-message "tlesher")
+
+;; This works only for GUI emacs; for non-window emacs, it's a no-op.
+;; From https://tgermano.users.x20web.corp.google.com/www/mysystem.html#org0ce9e10
+
+(defun toggle-fullscreen (&optional f)
+  (interactive)
+  (let ((current-value (frame-parameter nil 'fullscreen)))
+    (set-frame-parameter nil 'fullscreen
+                         (if (equal 'fullboth current-value)
+                             (if (boundp 'old-fullscreen) old-fullscreen nil)
+                           (progn (setq old-fullscreen current-value)
+                                  'fullboth)))))
+(global-set-key (kbd "C-c w") 'toggle-fullscreen)
 
 ;; Jiggle the cursor after switching buffers, for better visibility.
 (use-package jiggle
