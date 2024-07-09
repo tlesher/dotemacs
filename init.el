@@ -200,22 +200,6 @@ the point."
 ;; don't work on a tty.
 (global-set-key (kbd "ESC ESC c")  'recompile)
 
-;; use windmove to switch between buffers and buffer-move to throw
-;; them around.
-(windmove-default-keybindings)
-(use-package buffer-move
-  :ensure
-  :config
-  (global-set-key (kbd "<C-S-left>") 'buf-move-left)
-  (global-set-key (kbd "<C-S-right>") 'buf-move-right)
-  (global-set-key (kbd "<C-S-up>") 'buf-move-up)
-  (global-set-key (kbd "<C-S-down>") 'buf-move-down)
-  ;; This set of keys stinks on ice: ESC Ctrl-left, etc.
-  (global-set-key (kbd "ESC M-[ d") 'buf-move-left)
-  (global-set-key (kbd "ESC M-[ c") 'buf-move-right)
-  (global-set-key (kbd "ESC M-[ a") 'buf-move-up)
-  (global-set-key (kbd "ESC M-[ b") 'buf-move-down))
-
 ;; I don't always (browse-url-of-buffer), but when I do, I prefer to use
 ;; Chrome.
 (when (executable-find "google-chrome")
