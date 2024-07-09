@@ -10,48 +10,39 @@
 
 
 (defun open-journal-file ()
- (let* ((today (format-time-string "%Y-%m-%d"))
+  (let* ((today (format-time-string "%Y-%m-%d"))
          (path (concat (getenv "HOME") "/org/journal/" (format-time-string "%Y-%m-%d") ".org"))
          (hdr-list (list
-                    (concat "* " (format-time-string "%Y-%m-%d (%A)"))
+                    ":PROPERTIES:"
+                    (concat ":ID: journal-" (format-time-string "%Y-%m-%d"))
+                    ":END:"
+                    ""
+                    (concat "#+title: " (format-time-string "%Y-%m-%d (%A)"))
+                    ""
                     (concat "[[https://calendar.google.com/calendar/u/0/r/day/2024/06/27][Calendar]] "
                             "| [[http://go/tlesher-howskills][How Skills running doc]] | "
                             "[[https://docs.google.com/spreadsheets/d/1Uzho3ypkTY6kxM0qdzX4ABLBr0zSMwjSei_QBMEbtf4/edit#gid=1247661671][Morning Planning]]")
                     ""
                     "* 📆 Schedule"
-                    ":PROPERTIES:"
-                  ":CUSTOM_ID: schedule"
-                  ":END:"
-                  ""
-                  "| Time      | Event                    | Location |"
-                  "|-----------+--------------------------+----------|"
-                  ""                  
-                  "* 🔥 Commits"
-                  ":PROPERTIES:"
-                  ":CUSTOM_ID: commits"
-                  ":END:"
-                  "- [ ] "
-                  "- [ ] "
-                  ""
-                  "* ✅ To Do"
-                  ":PROPERTIES:"
-                  ":CUSTOM_ID: todo"
-                  ":END:"
-                  "- [ ] "
-                  "- [ ] "
-                  "- [ ] "
-                  ""
-                  "* 🚫 Not To Do"
-                  ":PROPERTIES:"
-                  ":CUSTOM_ID: not-to-do"
-                  ":END:"
-                  "- [ ] "
-                  ""
-                  "* 🏁 WIP Wrapup (where I left off)"
-                  ":PROPERTIES:"
-                  ":CUSTOM_ID: wip-wrapup-where-i-left-off"
-                  ":END:"
-                  "- [ ] SHUT DOWN"))
+                    ""
+                    "| Time      | Event                    | Location |"
+                    "|-----------+--------------------------+----------|"
+                    ""                  
+                    "* 🔥 Commits"
+                    "** TODO "
+                    ""
+                    "* ✅ To Do"
+                    "** TODO "
+                    ""
+                    "* 🚫 Not To Do"
+                    "- [ ] "
+                    ""
+                    "* 🏁 WIP Wrapup (where I left off)"
+                    "** TODO SHUT DOWN"
+                    ""
+                    "* 📝 Notes"
+                    "** ."
+                    ))
          (hdr (apply 'concat
                      (mapcar (lambda (s) (concat s "\n"))
                              hdr-list)))
@@ -66,8 +57,9 @@
         (goto-char (point-min))
         (insert hdr)))
     (message "Enjoy your journaling!"))
- ) 
+  ) 
 
+(setq org-roam-dailies-capture-templates
 (with-eval-after-load "org"
   (define-key org-mode-map (kbd "C-c t") 'org-tidy-toggle))
 
@@ -77,11 +69,13 @@
                   (open-journal-file)))
 
 (use-package org-tidy
-  :ensure t
-  :config
-  (add-hook 'org-mode-hook #'org-tidy-mode))
+    :ensure t
+    :config
+    (add-hook 'org-mode-hook #'org-tidy-mode))
+;; TODO figure out why tidy doesn't work on new files.
+
 
 (use-package git-auto-commit-mode
-  :ensure t
-  )
+    :ensure t
+    )
 (provide 'init-org)
