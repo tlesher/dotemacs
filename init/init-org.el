@@ -6,9 +6,11 @@
 (global-set-key "\C-cb" 'org-iswitchb)
 (setq org-log-done t)
 
-
-
-
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "|" "DONE(d)" "CANCELED(c)" "SUPERSEDED(s)")))
+(setq org-link-abbrev-alist
+      '(("go" . "http://goto.corp.google.com/"))
+      )
 (defun open-journal-file ()
   (let* ((today (format-time-string "%Y-%m-%d"))
          (path (concat (getenv "HOME") "/org/journal/" (format-time-string "%Y-%m-%d") ".org"))
@@ -31,8 +33,7 @@
                     "* 🔥 Commits"
                     "** TODO "
                     ""
-                    "* ✅ To Do"
-                    "** TODO "
+                    "* ✅ [[file:$HOME/org/todo.org][To Do]]"
                     ""
                     "* 🚫 Not To Do"
                     "- [ ] "
@@ -59,7 +60,6 @@
     (message "Enjoy your journaling!"))
   ) 
 
-(setq org-roam-dailies-capture-templates
 (with-eval-after-load "org"
   (define-key org-mode-map (kbd "C-c t") 'org-tidy-toggle))
 
@@ -68,14 +68,16 @@
                   (interactive)
                   (open-journal-file)))
 
-(use-package org-tidy
-    :ensure t
-    :config
-    (add-hook 'org-mode-hook #'org-tidy-mode))
-;; TODO figure out why tidy doesn't work on new files.
+;; org-tidy looks nice but it seems to totally screw up drawer show/hide.
+
+;; (use-package org-tidy
+;;     :ensure t
+;;     :config
+;;     (add-hook 'org-mode-hook #'org-tidy-mode))
+;; ;; TODO figure out why tidy doesn't work on new files.
 
 
 (use-package git-auto-commit-mode
-    :ensure t
-    )
+  :ensure t)
+
 (provide 'init-org)
