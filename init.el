@@ -6,8 +6,26 @@
 ;; sb: Emacs ready in 2.07 seconds with 18 garbage collections.
 ;; calcifer: Emacs ready in 0.77 seconds with 8 garbage collections.
 
-(setq gc-cons-threshold (* 50 1000 1000))
-(add-hook 'emacs-startup-hook (lambda() (setq gc-cons-threshold (* 2 1000 1000))))
+;; bru: Emacs ready in 0.73 seconds with 20 garbage collections.
+
+;; bru@1 0.98/33
+;; bru@2 0.98/33
+;; bru@4 0.93/27
+;; bru@8 0.87/24
+;; bru@16 0.90/22
+;; bru@32 0.77/21
+;; bru@64 0.73/20
+;; bru@128 0.77/20
+
+(setq tdl-init-gc-cons-threshold-multiplier 64
+      tdl-orig-gc-cons-threshold gc-cons-threshold
+      tdl-init-gc-cons-threshold (* tdl-init-gc-cons-threshold-multiplier
+				    gc-cons-threshold)
+      gc-cons-threshold tdl-init-gc-cons-threshold)
+
+(message (format "Setting init gc threshold multiplier to %d." tdl-init-gc-cons-threshold-multiplier))
+
+(add-hook 'emacs-startup-hook (lambda() (setq gc-cons-threshold tdl-orig-gc-cons-threshold)))
 
 ;; Print startup time.
 ;; Use a hook so the message doesn't get clobbered by other messages.
@@ -24,7 +42,7 @@
 
 (cl-labels
     ((add-path (p)
-               (add-to-list 'load-path (concat user-emacs-directory p))))
+       (add-to-list 'load-path (concat user-emacs-directory p))))
   (add-path "glisp")
   (add-path "lisp")
   (add-path "init"))
@@ -116,16 +134,16 @@
 
 ;; Ensure tmux passes through xterm keys.
 (defadvice terminal-init-screen
-  ;; The advice is named `tmux', and is run before `terminal-init-screen' runs.
-  (before tmux activate)
+    ;; The advice is named `tmux', and is run before `terminal-init-screen' runs.
+    (before tmux activate)
   ;; Docstring.  This describes the advice and is made available inside emacs;
   ;; for example when doing C-h f terminal-init-screen RET
   "Apply xterm keymap, allowing use of keys passed through tmux."
   ;; This is the elisp code that is run before `terminal-init-screen'.
   (if (getenv "TMUX")
-    (let ((map (copy-keymap xterm-function-map)))
-    (set-keymap-parent map (keymap-parent input-decode-map))
-    (set-keymap-parent input-decode-map map))))
+      (let ((map (copy-keymap xterm-function-map)))
+        (set-keymap-parent map (keymap-parent input-decode-map))
+        (set-keymap-parent input-decode-map map))))
 
 ;; Use ibuffer as a better list-buffers
 ;; from http://xahlee.org/emacs/effective_emacs.html
@@ -149,6 +167,8 @@
 (set-register ?e `(file . ,(concat user-emacs-directory "init.el")))
 (set-register ?g `(file . ,(concat
 			    user-emacs-directory "init/init-google.el")))
+;; TODO: This is temporary, while I'm getting org-mode up to speed.
+(set-register ?o `(file . ,(concat user-emacs-directory "init/init-org.el")))
 
 ;; No tabs.
 (setq-default indent-tabs-mode nil)
@@ -163,7 +183,7 @@
 
 (global-set-key (kbd "C-x g") 'browse-url-at-point)
 (global-set-key (kbd "M-j")
-            (lambda ()
+                (lambda ()
                   (interactive)
                   (join-line -1)))
 (global-set-key (kbd "M-RET") 'comment-indent-new-line)
@@ -200,11 +220,16 @@ the point."
 ;; don't work on a tty.
 (global-set-key (kbd "ESC ESC c")  'recompile)
 
-;; I don't always (browse-url-of-buffer), but when I do, I prefer to use
-;; Chrome.
-(when (executable-find "google-chrome")
-  (setq browse-url-generic-program (executable-find "google-chrome")
-        browse-url-browser-function 'browse-url-generic))
+;; ;; Set up browse-url-of-buffer and friends.
+;; (cond
+;;  ;; Use host browser when running on a chromebook vm
+;;  ((executable-find "garcon-url-handler")
+;;   (setq browse-url-generic-program (executable-find "garcon-url-handler")
+;;         browse-url-browser-function 'browse-url-generic))
+;;  ;; Otherwise look for Chrome
+;;  ((executable-find "google-chrome")
+;;   (setq browse-url-generic-program (executable-find "google-chrome")
+;;         browse-url-browser-function 'browse-url-generic)))
 
 (setq bookmark-default-file (concat user-emacs-directory "bookmarks"))
 (setq bookmark-save-flag 1)
@@ -223,7 +248,7 @@ the point."
 (add-hook 'shell-mode-hook
           (lambda ()
             (define-key shell-mode-map
-              (kbd "C-d") 'comint-delchar-or-eof-or-kill-buffer)))
+                        (kbd "C-d") 'comint-delchar-or-eof-or-kill-buffer)))
 
 ;; Abbrevs.
 (setq abbrev-mode t)
