@@ -125,6 +125,9 @@
     (server-force-delete)
     (server-start)))
 
+(use-package crux
+  :ensure)
+
 ;; Retrying ido mode based on http://www.masteringemacs.org/article/introduction-to-ido-mode.
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
