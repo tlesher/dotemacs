@@ -86,7 +86,7 @@
 (require 'init-utils)
 (if (not (require 'init-google nil t))
     (message "init-google.el not found; skipping Google-specific configuration."))
-(require 'init-org)
+;; (require 'init-org)
 (require 'init-nav)
 (require 'init-windows)
 (require 'init-tkeys)
