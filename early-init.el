@@ -6,6 +6,3 @@
 
 (require 'early-init-speedup)
 (require 'early-init-ui)
-
-;; (load-file (concat user-emacs-directory "/init/early-init-ui.el"))
-;; (load-file (concat user-emacs-directory "/init/erarly-init-speedup.el"))
