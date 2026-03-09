@@ -81,7 +81,6 @@
 (setq auto-save-file-name-transforms                                                                                                                                                 
       `((".*" ,temporary-file-directory t)))
 
-(require 'init-archive-messages)
 (require 'init-ui)
 (require 'init-fill)
 (require 'init-flymake)
