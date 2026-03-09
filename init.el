@@ -38,6 +38,9 @@
 
 ;; TODO(tlesher): look at auto-complete or company mode
 
+(setq auto-save-file-name-transforms                                                                                                                                                 
+      `((".*" ,temporary-file-directory t)))
+
 (require 'init-archive-messages)
 (require 'init-ui)
 (require 'init-fill)
@@ -220,10 +223,10 @@ the point."
 (quietly-read-abbrev-file)
 
 ;; Key frequency mode
-(use-package keyfreq
-  :config
-  (keyfreq-mode 1)
-  (keyfreq-autosave-mode 1))
+;; (use-package keyfreq
+;;   :config
+;;   (keyfreq-mode 1)
+;;   (keyfreq-autosave-mode 1))
 
 ;; EXPERIMENTS MAY BITE
 
