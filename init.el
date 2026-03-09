@@ -1,10 +1,3 @@
-;; Emacs startup optimization:
-;; Make startup faster by increasing the garbage collection threshold (thereby
-;; reducing the frequency of garbage collection), then reduce again to make gc pauses faster.
-;; The default gc threshold is 800 kilobytes.
-;; Last test:
-;; sb: Emacs ready in 2.07 seconds with 18 garbage collections.
-;; Extend load path to select .emacs.d subdirectories.
 (require 'cl-lib)
 
 ;; Uncomment to measure time for require statements. Keep this line before any
