@@ -14,19 +14,14 @@
 ;; Use ALL the memory!
 (setq tdl-orig-gc-cons-threshold gc-cons-threshold
       gc-cons-threshold most-positive-fixnum)
-(add-hook 'emacs-startup-hook
-          (lambda()
-            (setq gc-cons-threshold tdl-orig-gc-cons-threshold)))
 
-;; Print startup time.
-;; Use a hook so the message doesn't get clobbered by other messages.
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (message "Emacs ready in %s with %d garbage collections."
-                     (format "%.2f seconds"
-                             (float-time
-                              (time-subtract after-init-time before-init-time)))
-                     gcs-done)))
+(defun tdl/post-startup-restore-gc ()
+  "Return to original gc cons threshold after startup."
+  (setq gc-cons-threshold tdl-orig-gc-cons-threshold)
+  (let ((elapsed (float-time (time-subtract after-init-time before-init-time))))
+    (message "Emacs ready in %.2f seconds with %d garbage collections."
+             elapsed gcs-done)))
+(add-hook 'emacs-startup-hook #'tdl/post-startup-restore-gc)
 
 
 (provide 'early-init-speedup)
