@@ -3,29 +3,11 @@
 ;; reducing the frequency of garbage collection), then reduce again to make gc pauses faster.
 ;; The default gc threshold is 800 kilobytes.
 ;; Last test:
-;; sb: Emacs ready in 2.07 seconds with 18 garbage collections.
+;; OUTDATED-REDO: Emacs ready in 2.07 seconds with 18 garbage collections.
 
-;; calcifer: Emacs ready in 0.77 seconds with 8 garbage collections.
+;; OUTDATED-REDO: calcifer: Emacs ready in 0.77 seconds with 8 garbage collections.
 
-;; bru: Emacs ready in 0.73 seconds with 20 garbage collections.
-
-;; bru@1 0.98/33
-;; bru@2 0.98/33
-;; bru@4 0.93/27
-;; bru@8 0.87/24
-;; bru@16 0.90/22
-;; bru@32 0.77/21
-;; bru@64 0.73/20
-;; bru@128 0.77/20
-
-
-;; (setq tdl-init-gc-cons-threshold-multiplier 64
-;;       tdl-orig-gc-cons-threshold gc-cons-threshold
-;;       tdl-init-gc-cons-threshold (* tdl-init-gc-cons-threshold-multiplier
-;; 				    gc-cons-threshold)
-;;       gc-cons-threshold tdl-init-gc-cons-threshold)
-
-;; (message (format "Setting init gc threshold multiplier to %d." tdl-init-gc-cons-threshold-multiplier))
+;; bru: Emacs ready in 0.61 seconds with 2 garbage collections.
 
 ;; Use ALL the memory!
 (setq tdl-orig-gc-cons-threshold gc-cons-threshold
