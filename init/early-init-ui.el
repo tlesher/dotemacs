@@ -5,3 +5,5 @@
   (tool-bar-mode 0))
 (line-number-mode t)
 (column-number-mode t)
+
+(provide 'early-init-ui)
