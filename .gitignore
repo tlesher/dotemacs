@@ -9,4 +9,6 @@ ido.last
 messages-archive
 server/
 session.*
-tmp/
+tmp/eln-cache/
+eln-cache/*
+
