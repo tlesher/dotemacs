@@ -12,3 +12,4 @@ session.*
 tmp/eln-cache/
 eln-cache/*
 
+tmp/
